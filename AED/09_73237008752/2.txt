@@ -1,0 +1,555 @@
+
+[15:50:29(966)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[15:50:30(006)Rx]<--U
+[15:50:30(102)Rx]ART Data:*B,2,3159,4608&
+-->
+<--TID_CS!-->
+
+[15:50:30(906)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2235 - LastACK:2235 - OT:32]!-->
+
+[15:50:31(704)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2258 - LastACK:2235 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:2258 - LastACK:2235]!-->
+<--TCP Send Data:**,100,DC,2,3159,4608&&[23][1]-->
+
+[15:50:59(998)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[15:51:00(040)Rx]<--U
+[15:51:00(137)Rx]ART Data:*B,2,3153,4598&
+-->
+<--TID_CS!-->
+
+[15:51:00(956)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2258 - LastACK:2258 - OT:32]!-->
+
+[15:51:01(754)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2281 - LastACK:2258 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:2281 - LastACK:2258]!-->
+<--TCP Send Data:**,100,DC,2,3153,4598&&[23][1]-->
+
+[15:51:30(028)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[15:51:30(070)Rx]<--UART Data:*B,2,3173,4595&
+-->
+
+[15:51:30(167)Rx]<--TID_CS!-->
+
+[15:51:30(971)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2281 - LastACK:2281 - OT:32]!-->
+
+[15:51:31(770)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2304 - LastACK:2281 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:2304 - LastACK:2281]!-->
+<--TCP Send Data:**,100,DC,2,3173,4595&&[23][1]-->
+
+[15:52:00(062)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[15:52:00(104)Rx]<--U
+[15:52:00(203)Rx]ART Data:*B,2,3168,4594&
+-->
+<--TID_CS!-->
+
+[15:52:01(014)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2304 - LastACK:2304 - OT:32]!-->
+
+[15:52:01(813)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2327 - LastACK:2304 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:2327 - LastACK:2304]!-->
+<--TCP Send Data:**,100,DC,2,3168,4594&&[23][1]-->
+
+[15:52:30(092)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[15:52:30(135)Rx]<--U
+[15:52:30(229)Rx]ART Data:*B,2,3165,4594&
+-->
+<--TID_CS!-->
+
+[15:52:31(035)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2327 - LastACK:2327 - OT:32]!-->
+
+[15:52:31(834)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2350 - LastACK:2327 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:2350 - LastACK:2327]!-->
+<--TCP Send Data:**,100,DC,2,3165,4594&&[23][1]-->
+
+[15:53:00(125)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[15:53:00(169)Rx]<--U
+[15:53:00(266)Rx]ART Data:*B,2,3163,4596&
+-->
+<--TID_CS!-->
+
+[15:53:01(074)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2350 - LastACK:2350 - OT:32]!-->
+
+[15:53:01(872)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2373 - LastACK:2350 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:2373 - LastACK:2350]!-->
+<--TCP Send Data:**,100,DC,2,3163,4596&&[23][1]-->
+
+[15:53:30(155)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[15:53:30(198)Rx]<--U
+[15:53:30(294)Rx]ART Data:*B,2,3162,4599&
+-->
+<--TID_CS!-->
+
+[15:53:31(099)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2373 - LastACK:2373 - OT:32]!-->
+
+[15:53:31(897)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2396 - LastACK:2373 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:2396 - LastACK:2373]!-->
+<--TCP Send Data:**,100,DC,2,3162,4599&&[23][1]-->
+
+[15:54:00(189)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[15:54:00(232)Rx]<--UART Data:*B,2,3160,4603&
+-->
+
+[15:54:00(334)Rx]<--TID_CS!-->
+
+[15:54:01(136)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2396 - LastACK:2396 - OT:32]!-->
+
+[15:54:01(936)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2419 - LastACK:2396 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:2419 - LastACK:2396]!-->
+<--TCP Send Data:**,100,DC,2,3160,4603&&[23][1]-->
+
+[15:54:30(219)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[15:54:30(264)Rx]<--U
+[15:54:30(339)Rx]ART Data:*B,2,3159,4576&
+-->
+
+[15:54:30(365)Rx]<--TID_CS!-->
+
+[15:54:31(171)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2419 - LastACK:2419 - OT:32]!-->
+
+[15:54:31(974)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2442 - LastACK:2419 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:2442 - LastACK:2419]!-->
+<--TCP Send Data:**,100,DC,2,3159,4576&&[23][1]-->
+
+[15:55:00(253)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[15:55:00(297)Rx]<--U
+[15:55:00(392)Rx]ART Data:*B,2,3157,4579&
+-->
+<--TID_CS!-->
+
+[15:55:01(201)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2442 - LastACK:2442 - OT:32]!-->
+
+[15:55:02(000)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2465 - LastACK:2442 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:2465 - LastACK:2442]!-->
+<--TCP Send Data:**,100,DC,2,3157,4579&&[23][1]-->
+
+[15:55:30(288)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[15:55:30(330)Rx]<--U
+[15:55:30(428)Rx]ART Data:*B,2,3155,4581&
+-->
+<--TID_CS!-->
+
+[15:55:31(240)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2465 - LastACK:2465 - OT:32]!-->
+
+[15:55:32(038)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2488 - LastACK:2465 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:2488 - LastACK:2465]!-->
+<--TCP Send Data:**,100,DC,2,3155,4581&&[23][1]-->
+
+[15:56:00(323)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[15:56:00(365)Rx]<--U
+[15:56:00(457)Rx]ART Data:*B,2,3153,4584&
+-->
+<--TID_CS!-->
+
+[15:56:01(266)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2488 - LastACK:2488 - OT:32]!-->
+
+[15:56:02(064)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2511 - LastACK:2488 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:2511 - LastACK:2488]!-->
+<--TCP Send Data:**,100,DC,2,3153,4584&&[23][1]-->
+
+[15:56:30(357)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[15:56:30(400)Rx]<--U
+[15:56:30(428)Rx]ART Data:*B,2,3152,4587&
+-->
+
+[15:56:30(500)Rx]<--TID_CS!-->
+
+[15:56:31(308)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2511 - LastACK:2511 - OT:32]!-->
+
+[15:56:32(108)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2534 - LastACK:2511 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:2534 - LastACK:2511]!-->
+<--TCP Send Data:**,100,DC,2,3152,4587&&[23][1]-->
+
+[15:57:00(386)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[15:57:00(428)Rx]<--U
+[15:57:00(523)Rx]ART Data:*B,2,3151,4591&
+-->
+<--TID_CS!-->
+
+[15:57:01(329)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2534 - LastACK:2534 - OT:32]!-->
+
+[15:57:02(127)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2557 - LastACK:2534 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:2557 - LastACK:2534]!-->
+<--TCP Send Data:**,100,DC,2,3151,4591&&[23][1]-->
+
+[15:57:30(421)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[15:57:30(462)Rx]<--U
+[15:57:30(560)Rx]ART Data:*B,2,3149,4593&
+-->
+<--TID_CS!-->
+
+[15:57:31(372)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2557 - LastACK:2557 - OT:32]!-->
+
+[15:57:32(171)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2557 - LastACK:2557 - OT:31]!-->
+
+[15:57:32(968)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2557 - LastACK:2557 - OT:30]!-->
+
+[15:57:33(769)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2557 - LastACK:2557 - OT:29]!-->
+
+[15:57:34(567)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2557 - LastACK:2557 - OT:28]!-->
+
+[15:57:35(365)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2557 - LastACK:2557 - OT:27]!-->
+
+[15:57:36(162)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2557 - LastACK:2557 - OT:26]!-->
+
+[15:57:36(962)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2580 - LastACK:2557 - OT:25]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:2580 - LastACK:2557]!-->
+<--TCP Send Data:**,100,DC,2,3149,4593&&[23][1]-->
+
+[15:58:00(451)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[15:58:00(493)Rx]<--U
+[15:58:00(588)Rx]ART Data:*B,2,3148,4597&
+-->
+<--TID_CS!-->
+
+[15:58:01(393)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2580 - LastACK:2580 - OT:32]!-->
+
+[15:58:02(190)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2603 - LastACK:2580 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:2603 - LastACK:2580]!-->
+<--TCP Send Data:**,100,DC,2,3148,4597&&[23][1]-->
+
+[15:58:30(484)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[15:58:30(529)Rx]<--U
+[15:58:30(623)Rx]ART Data:*B,2,3147,4600&
+-->
+<--TID_CS!-->
+
+[15:58:31(433)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2603 - LastACK:2603 - OT:32]!-->
+
+[15:58:32(231)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2626 - LastACK:2603 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:2626 - LastACK:2603]!-->
+<--TCP Send Data:**,100,DC,2,3147,4600&&[23][1]-->
+
+[15:59:00(515)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[15:59:00(558)Rx]<--U
+[15:59:00(603)Rx]ART Data:*B,2,3164,4574&
+-->
+
+[15:59:00(652)Rx]<--TID_CS!-->
+
+[15:59:01(457)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2626 - LastACK:2626 - OT:32]!-->
+
+[15:59:02(254)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2649 - LastACK:2626 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:2649 - LastACK:2626]!-->
+<--TCP Send Data:**,100,DC,2,3164,4574&&[23][1]-->
+
+[15:59:30(548)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[15:59:30(591)Rx]<--U
+[15:59:30(688)Rx]ART Data:*B,2,3162,4577&
+-->
+<--TID_CS!-->
+
+[15:59:31(496)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2649 - LastACK:2649 - OT:32]!-->
+
+[15:59:32(295)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2672 - LastACK:2649 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:2672 - LastACK:2649]!-->
+<--TCP Send Data:**,100,DC,2,3162,4577&&[23][1]-->
+
+[16:00:00(579)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[16:00:00(621)Rx]<--U
+[16:00:00(716)Rx]ART Data:*B,2,3160,4579&
+-->
+<--TID_CS!-->
+
+[16:00:01(521)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2672 - LastACK:2672 - OT:32]!-->
+
+[16:00:02(325)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2672 - LastACK:2672 - OT:31]!-->
+
+[16:00:03(129)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2672 - LastACK:2672 - OT:30]!-->
+
+[16:00:03(929)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2695 - LastACK:2672 - OT:29]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:2695 - LastACK:2672]!-->
+<--TCP Send Data:**,100,DC,2,3160,4579&&[23][1]-->
+
+[16:00:06(984)Rx]<--TID_CELL!-->
+
+[16:00:07(810)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2695 - LastACK:2695 - OT:32]!-->
+
+[16:00:08(609)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2737 - LastACK:2695 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:2737 - LastACK:2695]!-->
+<--TCP Send Data:**,101,460,0,6151,18051,17,0.0000,0.0000&&[42][1]-->
+
+[16:00:30(613)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[16:00:30(656)Rx]<--U
+[16:00:30(751)Rx]ART Data:*B,2,3159,4582&
+-->
+<--TID_CS!-->
+
+[16:00:31(560)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2737 - LastACK:2737 - OT:32]!-->
+
+[16:00:32(358)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2760 - LastACK:2737 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:2760 - LastACK:2737]!-->
+<--TCP Send Data:**,100,DC,2,3159,4582&&[23][1]-->
+
+[16:01:00(646)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[16:01:00(689)Rx]<--UA
+[16:01:00(785)Rx]RT Data:*B,2,3157,4585&
+-->
+<--TID_CS!-->
+
+[16:01:01(598)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2760 - LastACK:2760 - OT:32]!-->
+
+[16:01:02(397)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2783 - LastACK:2760 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:2783 - LastACK:2760]!-->
+<--TCP Send Data:**,100,DC,2,3157,4585&&[23][1]-->
+
+[16:01:30(682)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[16:01:30(724)Rx]<--U
+[16:01:30(777)Rx]ART Data:*B,2,3155,4588&
+-->
+
+[16:01:30(823)Rx]<--TID_CS!-->
+
+[16:01:31(629)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2783 - LastACK:2783 - OT:32]!-->
+
+[16:01:32(425)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2806 - LastACK:2783 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:2806 - LastACK:2783]!-->
+<--TCP Send Data:**,100,DC,2,3155,4588&&[23][1]-->
+
+[16:02:00(716)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[16:02:00(758)Rx]<--U
+[16:02:00(854)Rx]ART Data:*B,2,3153,4590&
+-->
+<--TID_CS!-->
+
+[16:02:01(668)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2806 - LastACK:2806 - OT:32]!-->
+
+[16:02:02(471)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2829 - LastACK:2806 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:2829 - LastACK:2806]!-->
+<--TCP Send Data:**,100,DC,2,3153,4590&&[23][1]-->
+
+[16:02:30(745)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[16:02:30(788)Rx]<--U
+[16:02:30(885)Rx]ART Data:*B,2,3151,4593&
+-->
+<--TID_CS!-->
+
+[16:02:31(688)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2829 - LastACK:2829 - OT:32]!-->
+
+[16:02:32(485)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2852 - LastACK:2829 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:2852 - LastACK:2829]!-->
+<--TCP Send Data:**,100,DC,2,3151,4593&&[23][1]-->
+
+[16:03:00(779)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[16:03:00(821)Rx]<--U
+[16:03:00(919)Rx]ART Data:*B,2,3149,4599&
+-->
+<--TID_CS!-->
+
+[16:03:01(731)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2852 - LastACK:2852 - OT:32]!-->
+
+[16:03:02(531)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2875 - LastACK:2852 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:2875 - LastACK:2852]!-->
+<--TCP Send Data:**,100,DC,2,3149,4599&&[23][1]-->
+
+[16:03:30(810)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[16:03:30(852)Rx]<--UA
+[16:03:30(946)Rx]RT Data:*B,2,3147,4571&
+-->
+<--TID_CS!-->
+
+[16:03:31(752)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2875 - LastACK:2875 - OT:32]!-->
+
+[16:03:32(551)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2898 - LastACK:2875 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:2898 - LastACK:2875]!-->
+<--TCP Send Data:**,100,DC,2,3147,4571&&[23][1]-->
+
+[16:04:00(843)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[16:04:00(886)Rx]<--U
+[16:04:00(912)Rx]ART Data:*B,2,3146,4573&
+-->
+
+[16:04:00(986)Rx]<--TID_CS!-->
+
+[16:04:01(791)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2898 - LastACK:2898 - OT:32]!-->
+
+[16:04:02(589)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2921 - LastACK:2898 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:2921 - LastACK:2898]!-->
+<--TCP Send Data:**,100,DC,2,3146,4573&&[23][1]-->
+
+[16:04:30(873)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[16:04:30(916)Rx]<--U
+[16:04:31(011)Rx]ART Data:*B,2,3144,4575&
+-->
+<--TID_CS!-->
+
+[16:04:31(815)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2921 - LastACK:2921 - OT:32]!-->
+
+[16:04:32(614)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2944 - LastACK:2921 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:2944 - LastACK:2921]!-->
+<--TCP Send Data:**,100,DC,2,3144,4575&&[23][1]-->
+
+[16:05:00(908)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[16:05:00(950)Rx]<--U
+[16:05:01(047)Rx]ART Data:*B,2,3143,4577&
+-->
+<--TID_CS!-->
+
+[16:05:01(854)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2944 - LastACK:2944 - OT:32]!-->
+
+[16:05:02(654)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2967 - LastACK:2944 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:2967 - LastACK:2944]!-->
+<--TCP Send Data:**,100,DC,2,3143,4577&&[23][1]-->
+
+[16:05:30(938)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[16:05:30(980)Rx]<--U
+[16:05:31(075)Rx]ART Data:*B,2,3162,4580&
+-->
+<--TID_CS!-->
+
+[16:05:31(880)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2967 - LastACK:2967 - OT:32]!-->
+
+[16:05:32(678)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2990 - LastACK:2967 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:2990 - LastACK:2967]!-->
+<--TCP Send Data:**,100,DC,2,3162,4580&&[23][1]-->
+
+[16:06:00(971)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[16:06:01(013)Rx]<--UA
+[16:06:01(071)Rx]RT Data:*
+[16:06:01(110)Rx]B,2,3158,4583&
+-->
+<--TID_CS!-->
+
+[16:06:01(919)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:2990 - LastACK:2990 - OT:32]!-->
+
+[16:06:02(718)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:3013 - LastACK:2990 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:3013 - LastACK:2990]!-->
+<--TCP Send Data:**,100,DC,2,3158,4583&&[23][1]-->
+
+[16:06:31(005)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[16:06:31(048)Rx]<--U
+[16:06:31(126)Rx]ART Data:*B,2,3156,4587&
+-->
+
+[16:06:31(154)Rx]<--TID_CS!-->
+
+[16:06:31(956)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:3013 - LastACK:3013 - OT:32]!-->
+
+[16:06:32(761)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:3036 - LastACK:3013 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:3036 - LastACK:3013]!-->
+<--TCP Send Data:**,100,DC,2,3156,4587&&[23][1]-->
+
+[16:07:01(039)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[16:07:01(083)Rx]<--U
+[16:07:01(179)Rx]ART Data:*B,2,3154,4590&
+-->
+<--TID_CS!-->
+
+[16:07:01(987)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:3036 - LastACK:3036 - OT:32]!-->
+
+[16:07:02(784)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:3059 - LastACK:3036 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:3059 - LastACK:3036]!-->
+<--TCP Send Data:**,100,DC,2,3154,4590&&[23][1]-->
+
+[16:07:31(074)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[16:07:31(116)Rx]<--U
+[16:07:31(213)Rx]ART Data:*B,2,3152,4593&
+-->
+<--TID_CS!-->
+
+[16:07:32(026)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:3059 - LastACK:3059 - OT:32]!-->
+
+[16:07:32(826)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:3082 - LastACK:3059 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:3082 - LastACK:3059]!-->
+<--TCP Send Data:**,100,DC,2,3152,4593&&[23][1]-->
+
+[16:08:01(103)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[16:08:01(146)Rx]<--U
+[16:08:01(242)Rx]ART Data:*B,2,3150,4597&
+-->
+<--TID_CS!-->
+
+[16:08:02(047)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:3082 - LastACK:3082 - OT:32]!-->
+
+[16:08:02(845)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:3105 - LastACK:3082 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:3105 - LastACK:3082]!-->
+<--TCP Send Data:**,100,DC,2,3150,4597&&[23][1]-->
+
+[16:08:31(139)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[16:08:31(182)Rx]<--UA
+[16:08:31(276)Rx]RT Data:*B,2,3149,4569&
+-->
+<--TID_CS!-->
+
+[16:08:32(090)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:3105 - LastACK:3105 - OT:32]!-->
+
+[16:08:32(889)Rx]<--WhileGetAckNumber[Result:1 - ACKNUM:3128 - LastACK:3105 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:3128 - LastACK:3105]!-->
+<--TCP Send Data:**,100,DC,2,3149,4569&&[23][1]-->
+
+[16:09:01(167)Rx]<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+
+[16:09:01(595)Rx]<--UART Data:*B,2,3147,4572&
+-->
