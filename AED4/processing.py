@@ -19,6 +19,7 @@ mydic=dict(zip(features,[[] for _ in range(len(features))]))
 
 
 def appendDic(path):
+    print (path)
 
 #    path='data/7315-m1-d0.txt'
     aed_id=int(path.split('/')[-1].split('-')[0])

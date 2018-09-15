@@ -16,9 +16,13 @@ from sklearn import svm
 
 from mpl_toolkits.mplot3d import Axes3D
 
+from matplotlib import cm
+from matplotlib.ticker import LinearLocator, FormatStrFormatter
+
 
 excel_path='data2.xlsx'
 df=pd.read_excel(excel_path)
+df=df[df['Monitor_ID']!=8]
 
 df['R1_delta']=df['R1']-df['R1_']
 df['R2_delta']=df['R2']-df['R2_']
@@ -56,54 +60,51 @@ y1_p=data1[index1_p,1]
 z1_p=data1[index1_p,2]
 
 
-ax = plt.figure(figsize=[15,20]).add_subplot(111, projection = '3d')
 
 
+ax = plt.figure(figsize=[15,15]).add_subplot(111, projection = '3d')
 
-ax.scatter(x1_n, y1_n, z1_n, s=50,facecolor='w',edgecolors='r',marker='o')
-ax.scatter(x1_p, y1_p, z1_p, s=50,facecolor='w',edgecolors='g',marker='o')
+f1=ax.scatter(x1_n, y1_n, z1_n, s=50,facecolor='w',edgecolors='g',marker='o')
+f2=ax.scatter(x1_p, y1_p, z1_p, s=50,facecolor='w',edgecolors='r',marker='o')
+
+ax.legend((f1,f2),
+              ('good','bad'),
+              scatterpoints=1,fontsize=20,loc='Best')
+
+
+ax.set_xlabel('R')
+
+ax.set_ylabel('G')
+
+ax.set_zlabel('B')
+
  
 
-#设置坐标轴
 
-ax.set_xlabel('X Label')
-
-ax.set_ylabel('Y Label')
-
-ax.set_zlabel('Z Label')
-
- 
+model = svm.SVC(C=1,kernel='linear')
+model.fit(X1[:,:3],label1)
+w,b=model.coef_[0],model.intercept_
 
 
 
+X = np.linspace(-1000, 3000, 10)
+Y = np.linspace(-1000, 3000, 10)
+X,Y = np.meshgrid(X, Y)  # 将坐标向量变为坐标矩阵，列为x的长度，行为y的长度
+Z = -(b[0]+w[0]*X+w[1]*Y)/w[2]
 
+#surf = ax.plot_surface(X, Y, Z, rstride=1, cstride=1,  linewidth=0, antialiased=False,shade=0.9,facecolor='y')
+surf = ax.plot_surface(X, Y, Z, cmap=cm.coolwarm,
+                       linewidth=0, antialiased=False)
 
+surf1 = ax.plot_surface(X, Y, Z+1/w[2], cmap=cm.coolwarm,
+                       linewidth=0, antialiased=False)
+surf2 = ax.plot_surface(X, Y, Z-1/w[2], cmap=cm.coolwarm,
+                       linewidth=0, antialiased=False)
 
-model = svm.SVC(kernel='linear')
-model.fit(X1,label1)
+support=model.support_vectors_
+norm=np.linalg.norm(w)
+dist=(np.dot(support,w)+b)/norm
 
-
-#def plot_svc_decision_function(clf, ax):
-#    """Plot the decision function for a 2D SVC"""
-x = np.linspace(-1000, 3000, 150)
-y = np.linspace(-1000, 3000, 150)
-z = np.linspace(-1000, 3000, 150)
-X,Y,Z=np.meshgrid(x,y,z)
-P = np.zeros_like(X)
-for i, xi in enumerate(x):
-    for j, yj in enumerate(y):
-        for k, zk in enumerate(z):
-            P[i, j,k] = model.decision_function(np.array([xi, yj,zk]).reshape([1,3]))
-            if P[i, j,k]<0.05 and P[i, j,k]>-0.05:
-                ax.scatter(xi, yj,zk, s=20,color='b',marker='o')
-
-                
-#    print (P)
-#    # plot the margins
-#ax.contour3D(X, Y,Z, P, colors='k',
-#           levels=[-1, 0, 1], alpha=0.5,extend3d=True)
-    
-#plot_svc_decision_function(model, ax=ax)
 
 
 
