@@ -13,7 +13,7 @@ from scipy.stats import pearsonr
 import seaborn as sns
 
 
-excel_path='data2.xlsx'
+excel_path='data.xlsx'
 df=pd.read_excel(excel_path)
 df['CC1']=df['R1']+df['G1']+df['B1']
 df['CC1_']=df['R1_']+df['G1_']+df['B1_']
@@ -97,45 +97,48 @@ class Utils():
         plt.ylim([self.lim[1],self.lim[3]])
         
 
-#color_list=['r','g','b','y']
-#marker_list=['o','v','^','s']
-#
-#
-#fig=plt.figure(figsize=(12,12))
-#
-#R=Utils(df,'R1_delta','R2_delta','Display')
-#plt.subplot(221)
-#R.plot(fig)
-#
-#G=Utils(df,'G1_delta','G2_delta','Display')
-#plt.subplot(222)
-#G.plot(fig)
-#
-#B=Utils(df,'B1_delta','B2_delta','Display')
-#plt.subplot(223)
-#B.plot(fig)
-#
-#plt.subplot(224)
-#
-#colormap = sns.diverging_palette(220, 10, as_cmap = True)
-#_ = sns.heatmap(
-#        df_delta.corr(), 
-#        cmap = colormap,
-#        square=True, 
-#        cbar_kws={'shrink':.9 }, 
-##        ax=ax,
-#        annot=True, 
-#        linewidths=0.1,vmax=1.0, linecolor='white',
-#        annot_kws={'fontsize':12 }
-#    )
-#plt.title('Correlation Matrix', size=18)
-#
-#
-#fig.savefig('scatter.jpg')
+color_list=['r','g','b','y']
+marker_list=['o','v','^','s']
+
+
+fig=plt.figure(figsize=(12,12))
+
+R=Utils(df,'R1_delta','R2_delta','Display')
+plt.subplot(221)
+R.plot(fig)
+
+G=Utils(df,'G1_delta','G2_delta','Display')
+plt.subplot(222)
+G.plot(fig)
+
+B=Utils(df,'B1_delta','B2_delta','Display')
+plt.subplot(223)
+B.plot(fig)
+
+plt.subplot(224)
+
+colormap = sns.diverging_palette(220, 10, as_cmap = True)
+_ = sns.heatmap(
+        df_delta.corr(), 
+        cmap = colormap,
+        square=True, 
+        cbar_kws={'shrink':.9 }, 
+#        ax=ax,
+        annot=True, 
+        linewidths=0.1,vmax=1.0, linecolor='white',
+        annot_kws={'fontsize':12 }
+    )
+plt.title('Correlation Matrix', size=18)
+
+
+fig.savefig('scatter.jpg')
 
 
 
-       
+  
+
+
+"""     
 
 jj=jiaozhun(df,'R1_','R2_',2,'red')
 
@@ -166,3 +169,4 @@ plt.subplot(222)
 one_channel('G')
 plt.subplot(223)
 one_channel('B')
+"""
