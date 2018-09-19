@@ -29,14 +29,24 @@ def queen(L=9):
     
     dfs([],L)
     e=time.time()-base_time
-    print ('%.3f--%.3f'%(s,e))
-    return box
+#    print ('%.3f--%.3f : %.3f'%(s,e,(e-s)))
+    return s,e,(e-s)
 
-aa=queen(1)
+#aa=queen(12)
 
-p=Pool(4)
-for i in range(5):
-    p.apply_async(queen, args=(8,))
-print('Waiting for all subprocesses done...')
-p.close()
-p.join()
+
+def one_test(process_num,L=9,total=32):
+    p=Pool(process_num)
+    log=p.map(queen,[L]*total)
+    #    p.apply_async(queen, args=(12,))
+#    print('Waiting for all subprocesses done...')
+    p.close()
+    p.join()
+    time_stamp=[x[0] for x in log]+[x[1] for x in log]
+    s=min(time_stamp)
+    e=max(time_stamp)
+    return (e-s)/total
+
+for num in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,32]:
+    av_time=one_test(num,L=12)
+    print('average time is %.3f when %d process'%(av_time,num))
