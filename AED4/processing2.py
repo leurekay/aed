@@ -12,7 +12,7 @@ import pandas as pd
 import collections
 
 
-base_dir='data/'
+base_dir='data2/'
 
 #df =pd.DataFrame(columns=['AED_ID','Monitor_ID','Display','Statue_monitor','R1','R1_','R2','R2_','G1','G1_','G2','G2_','B1','B1_','B2','B2_','C1','C1_','C2','C2_'],index=None)
 features=['AED_ID','Monitor_ID','Display','Statue_monitor','R1','R1_','R2','R2_','G1','G1_','G2','G2_','B1','B1_','B2','B2_','C1','C1_','C2','C2_']
@@ -86,7 +86,7 @@ def appendDic(path):
     print (path)
 
 #    path='data/7315-m1-d0.txt'
-    aed_id=int(path.split('/')[-1].split('-')[0])
+    aed_id=path.split('/')[-1].split('-')[0]
     m_id=int(path.split('m')[-1].split('-')[0])
     display=int(path.split('d')[-1].split('.')[0])
     
@@ -139,7 +139,7 @@ for i in range(df.shape[0]):
 
 df['AED_ID']=df['AED_ID'].astype('str')
 df[features[1:]]=df[features[1:]].astype('int')
-df.to_excel('data.xlsx',index=False)   
+df.to_excel('data42342.xlsx',index=False)   
 
 
 

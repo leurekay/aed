@@ -57,7 +57,7 @@ class Classifier():
         
         
     def svm(self):
-        self.model=model = svm.SVC(kernel='linear',C=0.0000002)
+        self.model=model = svm.SVC(kernel='linear',C=0.0000001)
         model.fit(self.data,self.label)
         w,b=model.coef_[0],model.intercept_
         self.w=w
@@ -82,7 +82,7 @@ class Classifier():
         
         f1=ax.scatter(data0[:,0], data0[:,1], data0[:,2], s=50,facecolor='w',edgecolors='g',marker='o')
         f2=ax.scatter(data1[:,0], data1[:,1], data1[:,2], s=50,facecolor='w',edgecolors='r',marker='o')
-        ax.scatter(self.support[:,0], self.support[:,1], self.support[:,2], s=5,facecolor='k',edgecolors='k',marker='o')
+        ax.scatter(self.support[:,0], self.support[:,1], self.support[:,2], s=10,facecolor='k',edgecolors='k',marker='o')
         
         
         ax.legend((f1,f2),
