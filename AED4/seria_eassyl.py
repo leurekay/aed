@@ -53,9 +53,10 @@ def oneSet(aed_id,monitor,display):
         
         line = ser.readline() 
         box.append(line)
-        print (line)        
+#        print (line)        
         if 'UART Data:*B' in line:
             count+=1
+            print (line)
 
         if count==N:
             txt=''
@@ -69,16 +70,16 @@ def oneSet(aed_id,monitor,display):
 
 while True:
     print ('======================================================================')
-    input_aed=raw_input('AED_ID(%s):'%aed_id)
+    input_aed=raw_input('AED_ID(default %s):'%aed_id)
     if input_aed!='':
         aed_id=input_aed
         
         
-    input_monitor=raw_input('Monitor(%s):'%monitor)
+    input_monitor=raw_input('Monitor(default %s):'%monitor)
     if input_monitor!='':
         monitor=input_monitor
         
-    input_display=raw_input('True display statue(%s):'%display)
+    input_display=raw_input('True display statue(default %s):'%display)
     if input_display!='':
         display=input_display
     

@@ -57,7 +57,7 @@ class Classifier():
         
         
     def svm(self):
-        self.model=model = svm.SVC(kernel='linear',C=0.0000001)
+        self.model=model = svm.SVC(kernel='linear',C=0.00000002)
         model.fit(self.data,self.label)
         w,b=model.coef_[0],model.intercept_
         self.w=w

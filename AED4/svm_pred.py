@@ -42,7 +42,7 @@ def statue_judge(zip_rgb):
     
     
 
-df_data=pd.read_excel('data_test.xlsx')
+df_data=pd.read_excel('data222.xlsx')
 #df_data=df_data[['R1','R1_','R2','R2_','G1','G1_','G2','G2_','B1','B1_','B2','B2_']]
 nrows,_=df_data.shape
 df_data['judge']=999
@@ -53,7 +53,7 @@ for i in range(nrows):
     df_data.loc[i,['judge']]=statue_judge(val)
 
 
-test=statue_judge([12881	,12169	,28489,	25164	,8890	,8440	,18379,	16220,	11340	,10891,	22033	,19494
+test=statue_judge([10175,6195,7752,6126,7785,5098,5331,4381,9855,6619,7250,6003
 
 
 ])
