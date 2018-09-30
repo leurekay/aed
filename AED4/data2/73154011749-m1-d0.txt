@@ -1,37 +1,40 @@
+<--TID_KEEP!-->
+<--WhileGetAckNumber[Result:1 - ACKNUM:19262 - LastACK:19262 - OT:32]!-->
+<--WhileGetAckNumber[Result:1 - ACKNUM:19273 - LastACK:19262 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:19273 - LastACK:19262]!-->
+<--TCP Send Data:**,100,DC&&[11][1]-->
+<--TID_KEEP!-->
+<--UART_EXT send *C,67&-->
+<--UART Data:*B,0,R:6093 6118,6089 6069,G:5031 5026,4376 4353,B:6499 6469,6081 6034,C:16473 16349,17250 17140&
+-->
+<--TID_CS!-->
+<--WhileGetAckNumber[Result:1 - ACKNUM:19273 - LastACK:19273 - OT:32]!-->
+<--WhileGetAckNumber[Result:1 - ACKNUM:19378 - LastACK:19273 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:19378 - LastACK:19273]!-->
+<--TCP Send Data:**,100,DC,0,R:6093 6118,6089 6069,G:5031 5026,4376 4353,B:6499 6469,6081 6034,C:16473 16349,17250 17140&&[105][1]-->
 <--TID_CELL!-->
-<--WhileGetAckNumber[Result:1 - ACKNUM:566 - LastACK:566 - OT:32]!-->
-<--WhileGetAckNumber[Result:1 - ACKNUM:608 - LastACK:566 - OT:31]!-->
-<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:608 - LastACK:566]!-->
-<--TCP Send Data:**,101,460,0,6151,18051,19,0.0000,0.0000&&[42][1]-->
+<--WhileGetAckNumber[Result:1 - ACKNUM:19378 - LastACK:19378 - OT:32]!-->
+<--WhileGetAckNumber[Result:1 - ACKNUM:19420 - LastACK:19378 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:19420 - LastACK:19378]!-->
+<--TCP Send Data:**,101,460,0,6151,18051,21,0.0000,0.0000&&[42][1]-->
 <--TID_KEEP!-->
 <--UART_EXT send *C,67&-->
-<--UART Data:*B,0,R:6194 6195,6110 6126,G:5117 5098,4413 4381,B:6657 6619,6103 6003,C:16569 16510,17374 17235&
+<--UART Data:*B,0,R:6125 6118,6094 6069,G:5050 5026,4384 4353,B:6516 6469,6099 6034,C:16444 16349,17290 17140&
 -->
 <--TID_CS!-->
-<--WhileGetAckNumber[Result:1 - ACKNUM:608 - LastACK:608 - OT:32]!-->
-<--WhileGetAckNumber[Result:1 - ACKNUM:713 - LastACK:608 - OT:31]!-->
-<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:713 - LastACK:608]!-->
-<--TCP Send Data:**,100,DC,0,R:6194 6195,6110 6126,G:5117 5098,4413 4381,B:6657 6619,6103 6003,C:16569 16510,17374 17235&&[105][1]-->
+<--WhileGetAckNumber[Result:1 - ACKNUM:19420 - LastACK:19420 - OT:32]!-->
+<--WhileGetAckNumber[Result:1 - ACKNUM:19525 - LastACK:19420 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:19525 - LastACK:19420]!-->
+<--TCP Send Data:**,100,DC,0,R:6125 6118,6094 6069,G:5050 5026,4384 4353,B:6516 6469,6099 6034,C:16444 16349,17290 17140&&[105][1]-->
 <--TID_KEEP!-->
 <--UART_EXT send *C,67&-->
-<--UART Data:*B,0,R:6235 6195,6141 6126,G:5149 5098,4438 4381,B:6694 6619,6142 6003,C:16693 16510,17495 17235&
+<--UART Data:*B,0,R:6132 6118,6097 6069,G:5057 5026,4388 4353,B:6525 6469,6111 6034,C:16470 16349,17316 17140&
 -->
 <--TID_CS!-->
-<--WhileGetAckNumber[Result:1 - ACKNUM:713 - LastACK:713 - OT:32]!-->
-<--WhileGetAckNumber[Result:1 - ACKNUM:713 - LastACK:713 - OT:31]!-->
-<--WhileGetAckNumber[Result:1 - ACKNUM:713 - LastACK:713 - OT:30]!-->
-<--WhileGetAckNumber[Result:1 - ACKNUM:818 - LastACK:713 - OT:29]!-->
-<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:818 - LastACK:713]!-->
-<--TCP Send Data:**,100,DC,0,R:6235 6195,6141 6126,G:5149 5098,4438 4381,B:6694 6619,6142 6003,C:16693 16510,17495 17235&&[105][1]-->
+<--WhileGetAckNumber[Result:1 - ACKNUM:19525 - LastACK:19525 - OT:32]!-->
+<--WhileGetAckNumber[Result:1 - ACKNUM:19630 - LastACK:19525 - OT:31]!-->
+<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:19630 - LastACK:19525]!-->
+<--TCP Send Data:**,100,DC,0,R:6132 6118,6097 6069,G:5057 5026,4388 4353,B:6525 6469,6111 6034,C:16470 16349,17316 17140&&[105][1]-->
 <--TID_KEEP!-->
 <--UART_EXT send *C,67&-->
-<--UART Data:*B,0,R:6268 6195,6161 6126,G:5171 5098,4453 4381,B:6718 6619,6166 6003,C:16779 16510,17570 17235&
--->
-<--TID_CS!-->
-<--WhileGetAckNumber[Result:1 - ACKNUM:818 - LastACK:818 - OT:32]!-->
-<--WhileGetAckNumber[Result:1 - ACKNUM:923 - LastACK:818 - OT:31]!-->
-<--Ql_SOC_GetAckNumber[Result:1 - ACKNUM:923 - LastACK:818]!-->
-<--TCP Send Data:**,100,DC,0,R:6268 6195,6161 6126,G:5171 5098,4453 4381,B:6718 6619,6166 6003,C:16779 16510,17570 17235&&[105][1]-->
-<--TID_KEEP!-->
-<--UART_EXT send *C,67&-->
-<--UART Data:*B,0,R:6258 6195,6171 6126,G:5171 5098,4464 4381,B:6728 6619,6187 6003,C:16784 16510,17622 17235&
+<--UART Data:*B,0,R:6167 6118,6089 6069,G:5075 5026,4389 4353,B:6538 6469,6120 6034,C:16541 16349,17320 17140&

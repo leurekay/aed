@@ -142,4 +142,4 @@ df[features[1:]]=df[features[1:]].astype('int')
 df.to_excel('data.xlsx',index=False)   
 
 
-
+dark=df[(df['AED_ID']=='73654011061') | (df['AED_ID']=='73654011061d')]

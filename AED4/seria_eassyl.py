@@ -16,7 +16,7 @@ import time
 #str = t.read(n)  
 #print str  
 
-N=4
+N=13
 aed_id='#'
 monitor='1'
 display='0'

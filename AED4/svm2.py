@@ -11,6 +11,9 @@ import matplotlib.pyplot as plt
 from scipy.stats import pearsonr
 import seaborn as sns
 from sklearn import svm
+from sklearn.metrics import recall_score
+from sklearn.metrics import precision_score
+
 
 from mpl_toolkits.mplot3d import Axes3D
 
@@ -18,8 +21,12 @@ from matplotlib import cm
 from matplotlib.ticker import LinearLocator, FormatStrFormatter
 import mpl_toolkits.mplot3d as mp3d
 
-excel_path='data.xlsx'
+
+split=0.8
+excel_path='data_all.xlsx'
 df=pd.read_excel(excel_path)
+
+
 filter_=((df['AED_ID']==73654011066) | (df['AED_ID']==73154011634)) & (df['Monitor_ID']==8)
 df=df[~filter_]
 
@@ -39,11 +46,21 @@ df['C2_delta']=df['C2']-df['C2_']
 df['Battery']=df['Display']%2
 df['Meachine']=df['Display']//2
 
+
+
+
+
+shuffle=np.array(range(df.shape[0]))
+np.random.shuffle(shuffle)
+df=df.iloc[shuffle]
+df_train=df[:int(df.shape[0]*split)]
+df_val=df[int(df.shape[0]*split):]
+
 class Classifier():
-    def __init__(self,df,features,label):
-        
-        self.which=label
-        self.df_sub=df.loc[:,features+[label]]
+    def __init__(self,df,features,which):
+        self.features=features
+        self.which=which
+        self.df_sub=df.loc[:,features+[which]]
         
         self.data=data1=np.array(self.df_sub)[:,:-1]
         self.label=data1=np.array(self.df_sub)[:,-1]
@@ -57,7 +74,7 @@ class Classifier():
         
         
     def svm(self):
-        self.model=model = svm.SVC(kernel='linear',C=0.00000002)
+        self.model=model = svm.SVC(kernel='linear',C=0.000000001,class_weight={0:1,1:10})
         model.fit(self.data,self.label)
         w,b=model.coef_[0],model.intercept_
         self.w=w
@@ -142,21 +159,64 @@ class Classifier():
         norm=np.linalg.norm(self.w)
         dist=(np.dot(np.array(xyz),self.w)+self.b)/norm
         return dist
+    def validation(self,df):
+        serial=np.array(df.loc[:,'Statue_monitor'])
 
-battery=Classifier(df,features=['R1_delta','G1_delta','B1_delta'],
-                   label='Battery')
+        if self.which=='Battery':
+            for i in range(serial.shape[0]):
+                serial[i]=serial[i]%2
+#            print (serial)
+        if self.which=='Meachine':
+            for i in range(serial.shape[0]):
+                serial[i]=serial[i]//2
+#            print (serial)
+        df_sub=df.loc[:,self.features+[self.which]]
+        data=np.array(df_sub)[:,:-1]
+        label=np.array(df_sub)[:,-1]
+        p=self.model.predict(data)
+        recall=recall_score(label,p)
+        precision=precision_score(label,p)
+#        print (serial)
+#        print ('==================================')
+#        print (label)        
+        recall_serial=recall_score(label,serial)
+        precision_serial=precision_score(label,serial)        
+
+        return recall,precision,recall_serial,precision_serial
+#        return recall,precision,1,1
+        
+        
+
+battery=Classifier(df_train,features=['R1_delta','G1_delta','B1_delta'],
+                   which='Battery')
 battery.svm()
 battery.plot()
-df['B_dist']=0
-df['B_dist']=df.apply(lambda dfx:int(battery.distance([dfx['R1_delta'],dfx['G1_delta'],dfx['B1_delta']])),axis=1)
+recall_b,precision_b,recall_b_ser,precision_b_ser=battery.validation(df_val)
 
-meachine=Classifier(df,features=['R2_delta','G2_delta','B2_delta'],
-                   label='Meachine')
+
+#df_train['B_dist']=0
+#df_train['B_dist']=df_train.apply(lambda dfx:int(battery.distance([dfx['R1_delta'],dfx['G1_delta'],dfx['B1_delta']])),axis=1)
+
+
+
+meachine=Classifier(df_train,features=['R2_delta','G2_delta','B2_delta'],
+                   which='Meachine')
 meachine.svm()
 meachine.plot()
-df['M_dist']=0
-df['M_dist']=df.apply(lambda dfx:int(battery.distance([dfx['R2_delta'],dfx['G2_delta'],dfx['B2_delta']])),axis=1)
+recall_m,precision_m,recall_m_ser,precision_m_ser=meachine.validation(df_val)
+
+print (recall_b,recall_b_ser)
+print (recall_m,recall_m_ser)
+print (precision_b,precision_b_ser)
+print (precision_m,precision_m_ser)
 
 
-gg=df[(abs(df['B_dist'])<battery.margin_dist) | (abs(df['M_dist'])<meachine.margin_dist) ]
+
+
+
+#df_train['M_dist']=0
+#df_train['M_dist']=df_train.apply(lambda dfx:int(battery.distance([dfx['R2_delta'],dfx['G2_delta'],dfx['B2_delta']])),axis=1)
+#
+#
+#gg=df_train[(abs(df_train['B_dist'])<battery.margin_dist) | (abs(df_train['M_dist'])<meachine.margin_dist) ]
 
