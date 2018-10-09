@@ -74,7 +74,7 @@ class Classifier():
         
         
     def svm(self):
-        self.model=model = svm.SVC(kernel='linear',C=0.000000001,class_weight={0:1,1:10})
+        self.model=model = svm.SVC(kernel='linear',C=0.00000003,class_weight={0:1,1:8})
         model.fit(self.data,self.label)
         w,b=model.coef_[0],model.intercept_
         self.w=w
@@ -205,10 +205,16 @@ meachine.svm()
 meachine.plot()
 recall_m,precision_m,recall_m_ser,precision_m_ser=meachine.validation(df_val)
 
-print (recall_b,recall_b_ser)
-print (recall_m,recall_m_ser)
-print (precision_b,precision_b_ser)
-print (precision_m,precision_m_ser)
+print ('============battery===========')
+print ('new recall:%.4f , new precision:%.4f'%(recall_b,precision_b))
+print ('old recall:%.4f , old precision:%.4f'%(recall_b_ser,precision_b_ser))
+print ('============battery===========\n')
+
+
+print ('============meachine===========')
+print ('new recall:%.4f , new precision:%.4f'%(recall_m,precision_m))
+print ('old recall:%.4f , old precision:%.4f'%(recall_m_ser,precision_m_ser))
+print ('============meachine===========\n')
 
 
 
