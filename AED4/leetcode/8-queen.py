@@ -7,10 +7,13 @@ Created on Mon Sep 17 16:09:23 2018
 
 import time
 from  multiprocessing import Pool
+from sklearn.linear_model import LogisticRegression
+
+import time
 
 base_time=time.time()
 
-def queen(L=9):
+def queen(L=6):
     s=time.time()-base_time
     box=[]
     def dfs(a,L):
@@ -29,7 +32,7 @@ def queen(L=9):
     
     dfs([],L)
     e=time.time()-base_time
-#    print ('%.3f--%.3f : %.3f'%(s,e,(e-s)))
+    print ('%.3f--%.3f : %.3f'%(s,e,(e-s)))
     return s,e,(e-s)
 
 #aa=queen(12)
@@ -47,6 +50,9 @@ def one_test(process_num,L=9,total=32):
     e=max(time_stamp)
     return (e-s)/total
 
-for num in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,32]:
-    av_time=one_test(num,L=12)
-    print('average time is %.3f when %d process'%(av_time,num))
+a=queen(10)
+
+#for num in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,32]:
+#    av_time=one_test(num,L=12)
+#    print('average time is %.3f when %d process'%(av_time,num))
+time.sleep(10)

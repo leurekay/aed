@@ -73,8 +73,8 @@ class Classifier():
         self.data1=self.data[index1]
         
         
-    def svm(self):
-        self.model=model = svm.SVC(kernel='linear',C=0.00000003,class_weight={0:1,1:8})
+    def svm(self,C=0.00000003,class_weight={0:1,1:8}):
+        self.model=model = svm.SVC(kernel='linear',C=C,class_weight=class_weight)
         model.fit(self.data,self.label)
         w,b=model.coef_[0],model.intercept_
         self.w=w
@@ -83,8 +83,8 @@ class Classifier():
         norm=np.linalg.norm(w)
         dist=(np.dot(support,w)+b)/norm
         self.margin_dist=abs(dist[0])
-        print ('support vector :')
-        print (support)
+#        print ('support vector :')
+#        print (support)
         print ('margin distance : %d'%abs(dist[0]))
         with open('coef_%s.txt'%self.which,'w') as f:
             for i in w:
@@ -189,7 +189,7 @@ class Classifier():
 
 battery=Classifier(df_train,features=['R1_delta','G1_delta','B1_delta'],
                    which='Battery')
-battery.svm()
+battery.svm(C=5e-8,class_weight={0:1,1:2})
 battery.plot()
 recall_b,precision_b,recall_b_ser,precision_b_ser=battery.validation(df_val)
 
@@ -201,7 +201,7 @@ recall_b,precision_b,recall_b_ser,precision_b_ser=battery.validation(df_val)
 
 meachine=Classifier(df_train,features=['R2_delta','G2_delta','B2_delta'],
                    which='Meachine')
-meachine.svm()
+meachine.svm(C=3e-8,class_weight={0:1,1:4})
 meachine.plot()
 recall_m,precision_m,recall_m_ser,precision_m_ser=meachine.validation(df_val)
 

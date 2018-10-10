@@ -5,7 +5,7 @@ Created on Tue Sep 11 14:00:18 2018
 @author: zee
 """
 
-import numpy as np
+
 import pandas as pd
 
 with open('coef_Battery.txt') as f:
@@ -49,6 +49,7 @@ df_data['judge']=999
 for i in range(nrows):
     true_statue=df_data.loc[i,['Statue_monitor']]
     val=df_data.loc[i,['R1','R1_','R2','R2_','G1','G1_','G2','G2_','B1','B1_','B2','B2_']]
+    import numpy as np
     val=np.array(val)
     df_data.loc[i,['judge']]=statue_judge(val)
 
