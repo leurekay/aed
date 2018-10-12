@@ -16,6 +16,7 @@ from sklearn.metrics import precision_score
 from sklearn.metrics import roc_curve, auc
 
 from sklearn.linear_model import LogisticRegression
+from sklearn.externals import joblib
 
 from mpl_toolkits.mplot3d import Axes3D
 
@@ -65,8 +66,8 @@ class Classifier():
         self.which=which
         self.df_sub=df.loc[:,features+[which]]
         
-        self.data=data1=np.array(self.df_sub)[:,:-1]
-        self.label=data1=np.array(self.df_sub)[:,-1]
+        self.data=np.array(self.df_sub)[:,:-1]
+        self.label=np.array(self.df_sub)[:,-1]
 
 #        
         index0=np.where(self.label==0)
@@ -75,30 +76,15 @@ class Classifier():
         self.data0=self.data[index0]
         self.data1=self.data[index1]
         
-        
-    def svm(self,C=0.00000003,class_weight={0:1,1:8}):
-        self.model=model = svm.SVC(kernel='linear',C=C,class_weight=class_weight)
-        model.fit(self.data,self.label)
-        w,b=model.coef_[0],model.intercept_
-        self.w=w
-        self.b=b
-        self.support=support=model.support_vectors_
-        norm=np.linalg.norm(w)
-        dist=(np.dot(support,w)+b)/norm
-        self.margin_dist=abs(dist[0])
-#        print ('support vector :')
-#        print (support)
-        print ('margin distance : %d'%abs(dist[0]))
-        with open('coef_%s.txt'%self.which,'w') as f:
-            for i in w:
-                f.write('%.9f\n'%i)
-            f.write('%.9f\n'%b[0])
             
-    def lr(self):
-        self.model=model =LogisticRegression(penalty='l2',C=0.1,random_state=0, solver='lbfgs',
+    def lr(self,save_path=None):
+        self.model=model =LogisticRegression(penalty='l2',C=2,random_state=0, solver='lbfgs',
                         multi_class='multinomial')
         
         model.fit(self.data,self.label)
+        if save_path:
+            joblib.dump(model, save_path) 
+            print ('The model has been saved in %s'%save_path)
         
     def validation(self,df):
         serial=np.array(df.loc[:,'Statue_monitor'])
@@ -131,13 +117,15 @@ class Classifier():
 
 battery=Classifier(df_train,features=['R1_delta','G1_delta','B1_delta'],
                    which='Battery')
-battery.lr()
+battery.lr(save_path='model/lr_battery.pkl')
 recall_b,precision_b,recall_b_ser,precision_b_ser,fpr_b,tpr_b,thred_b=battery.validation(df_val)
+
+
 
 
 meachine=Classifier(df_train,features=['R2_delta','G2_delta','B2_delta'],
                    which='Meachine')
-meachine.lr()
+meachine.lr(save_path='model/lr_meachine.pkl')
 recall_m,precision_m,recall_m_ser,precision_m_ser,fpr_m,tpr_m,thred_m=meachine.validation(df_val)
 
 

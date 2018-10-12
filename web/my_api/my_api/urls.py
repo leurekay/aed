@@ -21,5 +21,7 @@ import views
 
 urlpatterns = [
     url('^admin/', admin.site.urls),
-    url('^test_api/(.+)/$', views.test_api),
+    url('^algorithm1/(.+)/$', views.svm),
+    url('^algorithm2/(.+)/$', views.lr),
+    
 ]

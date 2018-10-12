@@ -9,12 +9,20 @@ Created on Tue Sep 11 14:00:18 2018
 import pandas as pd
 import numpy as np
 
-with open('coef_Battery.txt') as f:
+from django.conf import settings
+import os
+
+basedir=settings.BASE_DIR
+print ('=====================================',basedir,'=============================================')
+model_battery_path=os.path.join(basedir,'data/model/coef_Battery.txt')
+model_meachine_path=os.path.join(basedir,'data/model/coef_Meachine.txt')
+
+with open(model_battery_path) as f:
     coef_b=f.readlines()
 for i,v in enumerate(coef_b):
     coef_b[i]=float(v)
     
-with open('coef_Meachine.txt') as f:
+with open(model_meachine_path) as f:
     coef_m=f.readlines()
 for i,v in enumerate(coef_m):
     coef_m[i]=float(v)
