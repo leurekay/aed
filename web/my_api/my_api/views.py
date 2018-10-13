@@ -16,6 +16,28 @@ import lr_pred
 import svm_pred
 
 
+
+@csrf_exempt
+def predict(request,param):
+    zipdata=param.split('-')
+    zipdata=map(lambda x:int(x),zipdata)
+    statue1,statue_battery1,statue_meachine1,confidence_battery1,confidence_meachine1=lr_pred.statue_judge(zipdata)
+    statue2,statue_battery2,statue_meachine2,confidence_battery2,confidence_meachine2=svm_pred.statue_judge(zipdata)
+    return JsonResponse({'input': param, 
+                         'statue1':statue1,
+                         'statue_battery1':statue_battery1,
+                         'statue_meachine1':statue_meachine1,
+                         #'confidence_battery':confidence_battery,
+                         #'confidence_meachine':confidence_meachine,
+                         'statue2':statue2,
+                         'statue_battery2':statue_battery2,
+                         'statue_meachine2':statue_meachine2,
+                         #'confidence_battery':confidence_battery,
+                         #'confidence_meachine':confidence_meachine
+                         })
+
+
+
 @csrf_exempt
 def lr(request,param):
     zipdata=param.split('-')
