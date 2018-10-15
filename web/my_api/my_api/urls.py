@@ -23,5 +23,6 @@ urlpatterns = [
     url('^admin/', admin.site.urls),
     url('^algorithm1/(.+)/$', views.svm),
     url('^algorithm2/(.+)/$', views.lr),
+    url('^(.+)/$', views.predict),
     
 ]
