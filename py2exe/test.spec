@@ -3,8 +3,8 @@
 block_cipher = None
 
 
-a = Analysis(['seria_eassyl.py'],
-             pathex=['C:\\Users\\zee\\Desktop\\aed\\py2exe'],
+a = Analysis(['test.py'],
+             pathex=['C:\\Users\\zee\\Anaconda2\\Lib\\site-packages\\numpy', 'C:\\Users\\zee\\Desktop\\aed\\py2exe'],
              binaries=[],
              datas=[],
              hiddenimports=[],
@@ -23,7 +23,7 @@ exe = EXE(pyz,
           a.zipfiles,
           a.datas,
           [],
-          name='seria_eassyl',
+          name='test',
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,

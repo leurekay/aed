@@ -16,19 +16,23 @@ import time
 #str = t.read(n)  
 #print str  
 
-N=13
-aed_id='#'
+N=4
+aed_id='123456'
 monitor='1'
 display='0'
 
+base_dir='data2'
+if not os.path.exists(base_dir):
+    os.mkdir(base_dir)
+
 
 def oneSet(aed_id,monitor,display):
-    ser = serial.Serial('com3',115200)
-    save_name=os.path.join('data2','%s-m%s-d%s.txt'%(aed_id,monitor,display)) 
+    ser = serial.Serial('com15',115200)
+    save_name=os.path.join(base_dir,'%s-m%s-d%s.txt'%(aed_id,monitor,display)) 
     already_file=0
     while os.path.exists(save_name):
         already_file+=1
-        save_name=os.path.join('data2','%s-m%s-d%s.txt'%(aed_id+'~'+str(already_file),monitor,display)) 
+        save_name=os.path.join(base_dir,'%s-m%s-d%s.txt'%(aed_id+'~'+str(already_file),monitor,display)) 
         
     print ('start collect data,it will be saved in %s'%save_name)
     
@@ -70,6 +74,12 @@ def oneSet(aed_id,monitor,display):
 
 while True:
     print ('======================================================================')
+    input_N=raw_input('sample number(default %s):'%str(N))
+    if input_N!='':
+        N=int(input_N)
+
+
+
     input_aed=raw_input('AED_ID(default %s):'%aed_id)
     if input_aed!='':
         aed_id=input_aed
