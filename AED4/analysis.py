@@ -13,7 +13,7 @@ from scipy.stats import pearsonr
 import seaborn as sns
 
 
-excel_path='data.xlsx'
+excel_path='data4.xlsx'
 df=pd.read_excel(excel_path)
 df['CC1']=df['R1']+df['G1']+df['B1']
 df['CC1_']=df['R1_']+df['G1_']+df['B1_']
@@ -131,7 +131,7 @@ _ = sns.heatmap(
 plt.title('Correlation Matrix', size=18)
 
 
-fig.savefig('scatter.jpg')
+fig.savefig('scatter4.jpg')
 
 
 
