@@ -63,7 +63,7 @@ if __name__=='__main__':
         val=df_data.loc[i,['R1','R1_','R2','R2_','G1','G1_','G2','G2_','B1','B1_','B2','B2_']]
         
         val=np.array(val)
-        df_data.loc[i,['judge']]=statue_judge(val)[0]
+        df_data.loc[i,['judge']]=statue_judge_lr(val)[0]
     
     
     test=statue_judge([14094,11861,25465,24424,10093,8303,16599,15847,13099,10652,20246,19091])

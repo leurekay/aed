@@ -12,9 +12,9 @@ import pandas as pd
 import collections
 
 
-base_dir='data4/'
+base_dir='data4-5/'
 
-save_excel_path='data4.xlsx'
+save_excel_path='data4-5.xlsx'
 
 #df =pd.DataFrame(columns=['AED_ID','Monitor_ID','Display','Statue_monitor','R1','R1_','R2','R2_','G1','G1_','G2','G2_','B1','B1_','B2','B2_','C1','C1_','C2','C2_'],index=None)
 features=['AED_ID','Monitor_ID','Display','Statue_monitor','R1','R1_','R2','R2_','G1','G1_','G2','G2_','B1','B1_','B2','B2_','C1','C1_','C2','C2_']

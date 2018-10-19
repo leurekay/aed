@@ -17,17 +17,17 @@ import time
 #print str  
 
 N=4
-aed_id='123456'
-monitor='1'
+aed_id='73654010180'
+monitor='6103'
 display='0'
 
-base_dir='data2'
+base_dir='data5'
 if not os.path.exists(base_dir):
     os.mkdir(base_dir)
 
 
 def oneSet(aed_id,monitor,display):
-    ser = serial.Serial('com15',115200)
+    ser = serial.Serial('com3',115200)
     save_name=os.path.join(base_dir,'%s-m%s-d%s.txt'%(aed_id,monitor,display)) 
     already_file=0
     while os.path.exists(save_name):
