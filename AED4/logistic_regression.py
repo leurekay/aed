@@ -27,7 +27,7 @@ import mpl_toolkits.mplot3d as mp3d
 prob=0
 
 split=0.8
-excel_path='data_all.xlsx'
+excel_path='excels/data_all.xlsx'
 df=pd.read_excel(excel_path)
 
 

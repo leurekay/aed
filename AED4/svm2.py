@@ -13,6 +13,7 @@ import seaborn as sns
 from sklearn import svm
 from sklearn.metrics import recall_score
 from sklearn.metrics import precision_score
+from sklearn.externals import joblib
 
 
 from mpl_toolkits.mplot3d import Axes3D
@@ -22,48 +23,16 @@ from matplotlib.ticker import LinearLocator, FormatStrFormatter
 import mpl_toolkits.mplot3d as mp3d
 
 
-split=0.8
-excel_path='data_all.xlsx'
-df=pd.read_excel(excel_path)
 
 
-filter_=((df['AED_ID']==73654011066) | (df['AED_ID']==73154011634)) & (df['Monitor_ID']==8)
-df=df[~filter_]
-
-df['R1_delta']=df['R1']-df['R1_']
-df['R2_delta']=df['R2']-df['R2_']
-
-df['G1_delta']=df['G1']-df['G1_']
-df['G2_delta']=df['G2']-df['G2_']
-
-df['B1_delta']=df['B1']-df['B1_']
-df['B2_delta']=df['B2']-df['B2_']
-
-df['C1_delta']=df['C1']-df['C1_']
-df['C2_delta']=df['C2']-df['C2_']
-
-
-df['Battery']=df['Display']%2
-df['Meachine']=df['Display']//2
-
-
-
-
-
-shuffle=np.array(range(df.shape[0]))
-np.random.shuffle(shuffle)
-df=df.iloc[shuffle]
-df_train=df[:int(df.shape[0]*split)]
-df_val=df[int(df.shape[0]*split):]
-
-class Classifier():
+class Classifier(object):
     def __init__(self,df,features,which):
         self.features=features
         self.which=which
         self.df_sub=df.loc[:,features+[which]]
         
-        self.data=data1=np.array(self.df_sub)[:,:-1]
-        self.label=data1=np.array(self.df_sub)[:,-1]
+        self.data=np.array(self.df_sub)[:,:-1]
+        self.label=np.array(self.df_sub)[:,-1]
 
 #        
         index0=np.where(self.label==0)
@@ -73,9 +42,11 @@ class Classifier():
         self.data1=self.data[index1]
         
         
-    def svm(self,C=0.00000003,class_weight={0:1,1:8}):
+    def svm(self,save_path,C=0.00000003,class_weight={0:1,1:8}):
         self.model=model = svm.SVC(kernel='linear',C=C,class_weight=class_weight)
         model.fit(self.data,self.label)
+        joblib.dump(model, save_path) 
+        print ('The model has been saved in %s'%save_path)
         w,b=model.coef_[0],model.intercept_
         self.w=w
         self.b=b
@@ -86,7 +57,7 @@ class Classifier():
 #        print ('support vector :')
 #        print (support)
         print ('margin distance : %d'%abs(dist[0]))
-        with open('coef_%s.txt'%self.which,'w') as f:
+        with open('model/coef_%s.txt'%self.which,'w') as f:
             for i in w:
                 f.write('%.9f\n'%i)
             f.write('%.9f\n'%b[0])
@@ -111,13 +82,6 @@ class Classifier():
     
         
         
-        
-        
-#        bot = [(1000,1000, 4000),
-#               (1000, 3000, 4000),
-#               (3000, 3000, 4000),
-#               (3000, 1000, 4000),
-#               ]
         xy=np.array([[-100,-100],
                [-100,3000],
                [3000,3000],
@@ -185,44 +149,152 @@ class Classifier():
         return recall,precision,recall_serial,precision_serial
 #        return recall,precision,1,1
         
+
+
+class SVM(Classifier):
+    def __init__(self,df,features,which,model_path):
+        super(SVM,self).__init__(df,features,which)
+        self.model=joblib.load(model_path)
+
+        self.w,self.b=self.model.coef_[0],self.model.intercept_
+
+        self.support=self.model.support_vectors_   
+
+    def plot(self,df,isShowAll=True,isShowSupport=True):
+        data0=self.data0
+        data1=self.data1
         
+        
+        df_sub=df.loc[:,self.features+[self.which]]
+        data_test=np.array(df_sub)[:,:-1]
+        label_test=np.array(df_sub)[:,-1]
 
-battery=Classifier(df_train,features=['R1_delta','G1_delta','B1_delta'],
-                   which='Battery')
-battery.svm(C=5e-8,class_weight={0:1,1:2})
-battery.plot()
-recall_b,precision_b,recall_b_ser,precision_b_ser=battery.validation(df_val)
+        index_test0=np.where(label_test==0)
+        index_test1=np.where(label_test==1)
+        
+        data_test0=data_test[index_test0]
+        data_test1=data_test[index_test1]
+        
+        
+        
+        ax = plt.figure(figsize=[15,15]).add_subplot(111, projection = '3d')
+        
+        f1=ax.scatter(data_test0[:,0], data_test0[:,1], data_test0[:,2], s=80,facecolor='g',edgecolors='g',marker='s')
+        f2=ax.scatter(data_test1[:,0], data_test1[:,1], data_test1[:,2], s=80,facecolor='r',edgecolors='r',marker='s')
+        if isShowAll:
+            ax.scatter(data0[:,0], data0[:,1], data0[:,2], s=20,facecolor='w',edgecolors='g',marker='o')
+            ax.scatter(data1[:,0], data1[:,1], data1[:,2], s=20,facecolor='w',edgecolors='r',marker='o')            
+        
+        if isShowSupport:
+            ax.scatter(self.support[:,0], self.support[:,1], self.support[:,2], s=10,facecolor='k',edgecolors='k',marker='o')
+        
+        
+        ax.legend((f1,f2),
+                      ('good','bad'),
+                      scatterpoints=1,fontsize=20,loc='Best')
+        ax.set_xlabel('R')
+        ax.set_ylabel('G')
+        ax.set_zlabel('B')
+    
+        
+        
+        xy=np.array([[-100,-100],
+               [-100,3000],
+               [3000,3000],
+               [3000,-100],
+               ])
+        w,b=self.model.coef_[0],self.model.intercept_
+        
+        z=-(b[0]+np.dot(xy,w[:2]))/w[2]
+        xyz=np.concatenate([xy,z.reshape([4,1])],axis=1)     
+        face1 = mp3d.art3d.Poly3DCollection([xyz], alpha=0.4, linewidth=1)
+        # This is the key step to get transparency working
+        alpha = 0.5
+        face1.set_facecolor((0, 0, 1, alpha))
+        ax.add_collection3d(face1)
 
 
-#df_train['B_dist']=0
-#df_train['B_dist']=df_train.apply(lambda dfx:int(battery.distance([dfx['R1_delta'],dfx['G1_delta'],dfx['B1_delta']])),axis=1)
+        z1=z+1/w[2]
+        xyz1=np.concatenate([xy,z1.reshape([4,1])],axis=1)     
+        face1 = mp3d.art3d.Poly3DCollection([xyz1], alpha=0.1, linewidth=1)
+        # This is the key step to get transparency working
+        alpha = 0.5
+        face1.set_facecolor((0, 0, 1, alpha))
+        ax.add_collection3d(face1)
+        
+        
+        z2=z-1/w[2]
+        xyz2=np.concatenate([xy,z2.reshape([4,1])],axis=1)     
+        face1 = mp3d.art3d.Poly3DCollection([xyz2], alpha=0.1, linewidth=1)
+        # This is the key step to get transparency working
+        alpha = 0.5
+        face1.set_facecolor((0, 0, 1, alpha))
+        ax.add_collection3d(face1)
+
+
+        plt.title(self.which,fontsize=20)
+        plt.show()        
 
 
 
-meachine=Classifier(df_train,features=['R2_delta','G2_delta','B2_delta'],
-                   which='Meachine')
-meachine.svm(C=3e-8,class_weight={0:1,1:4})
-meachine.plot()
-recall_m,precision_m,recall_m_ser,precision_m_ser=meachine.validation(df_val)
+if __name__=='__main__':
+    split=0.8
+    model_battery_path='model/svm_battery.pkl'
+    model_meachine_path='model/svm_meachine.pkl'
+    excel_path='excels/data_all.xlsx'
+    df=pd.read_excel(excel_path)
+    
+    df_test=pd.read_excel('excels/data4-5.xlsx')
+    
+    df=pd.concat([df,df_test])
+    
+    
+    shuffle=np.array(range(df.shape[0]))
+    np.random.shuffle(shuffle)
+    df=df.iloc[shuffle]
+    df_train=df[:int(df.shape[0]*split)]
+    df_val=df[int(df.shape[0]*split):]
+            
+    
+    battery=Classifier(df_train,features=['R1_delta','G1_delta','B1_delta'],
+                       which='Battery')
+    battery.svm(save_path=model_battery_path,C=5e-8,class_weight={0:1,1:2})
+    battery.plot()
+    recall_b,precision_b,recall_b_ser,precision_b_ser=battery.validation(df_val)
+    
+    
+    #df_train['B_dist']=0
+    #df_train['B_dist']=df_train.apply(lambda dfx:int(battery.distance([dfx['R1_delta'],dfx['G1_delta'],dfx['B1_delta']])),axis=1)
+    
+    
+    
+    meachine=Classifier(df_train,features=['R2_delta','G2_delta','B2_delta'],
+                       which='Meachine')
+    meachine.svm(save_path=model_meachine_path,C=3e-8,class_weight={0:1,1:4})
+    meachine.plot()
+    recall_m,precision_m,recall_m_ser,precision_m_ser=meachine.validation(df_val)
+    
+    print ('============battery===========')
+    print ('new recall:%.4f , new precision:%.4f'%(recall_b,precision_b))
+    print ('old recall:%.4f , old precision:%.4f'%(recall_b_ser,precision_b_ser))
+    print ('============battery===========\n')
+    
+    
+    print ('============meachine===========')
+    print ('new recall:%.4f , new precision:%.4f'%(recall_m,precision_m))
+    print ('old recall:%.4f , old precision:%.4f'%(recall_m_ser,precision_m_ser))
+    print ('============meachine===========\n')
 
-print ('============battery===========')
-print ('new recall:%.4f , new precision:%.4f'%(recall_b,precision_b))
-print ('old recall:%.4f , old precision:%.4f'%(recall_b_ser,precision_b_ser))
-print ('============battery===========\n')
 
 
-print ('============meachine===========')
-print ('new recall:%.4f , new precision:%.4f'%(recall_m,precision_m))
-print ('old recall:%.4f , old precision:%.4f'%(recall_m_ser,precision_m_ser))
-print ('============meachine===========\n')
+    restore_battery=SVM(df_train,features=['R1_delta','G1_delta','B1_delta'],
+                       which='Battery',model_path=model_battery_path)
 
+    restore_battery.plot(df_test,isShowAll=True)
+    
+    
+    
+    restore_meachine=SVM(df_train,features=['R2_delta','G2_delta','B2_delta'],
+                       which='Meachine',model_path=model_meachine_path)
 
-
-
-
-#df_train['M_dist']=0
-#df_train['M_dist']=df_train.apply(lambda dfx:int(battery.distance([dfx['R2_delta'],dfx['G2_delta'],dfx['B2_delta']])),axis=1)
-#
-#
-#gg=df_train[(abs(df_train['B_dist'])<battery.margin_dist) | (abs(df_train['M_dist'])<meachine.margin_dist) ]
-
+    restore_meachine.plot(df_test,isShowAll=True)
