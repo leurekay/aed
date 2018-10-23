@@ -9,12 +9,12 @@ Created on Tue Sep 11 14:00:18 2018
 import pandas as pd
 import numpy as np
 
-with open('coef_Battery.txt') as f:
+with open('model/coef_Battery.txt') as f:
     coef_b=f.readlines()
 for i,v in enumerate(coef_b):
     coef_b[i]=float(v)
     
-with open('coef_Meachine.txt') as f:
+with open('model/coef_Meachine.txt') as f:
     coef_m=f.readlines()
 for i,v in enumerate(coef_m):
     coef_m[i]=float(v)
@@ -54,7 +54,7 @@ if __name__=='__main__':
   
     from lr_pred import statue_judge as statue_judge_lr
     
-    df_data=pd.read_excel('data4.xlsx')
+    df_data=pd.read_excel('excels/data4.xlsx')
     #df_data=df_data[['R1','R1_','R2','R2_','G1','G1_','G2','G2_','B1','B1_','B2','B2_']]
     nrows,_=df_data.shape
     df_data['judge']=999
