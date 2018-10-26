@@ -36,7 +36,7 @@ def statue_judge(zip_rgb):
     
     confidence_b=battery*proba_b[0][1]+(1-battery)*proba_b[0][0]
     confidence_m=meachine*proba_m[0][1]+(1-meachine)*proba_m[0][0]
-    print(confidence_b,confidence_m)
+#    print(confidence_b,confidence_m)
     
     if battery==0 and meachine==0:
         total_statue=0

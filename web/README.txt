@@ -13,3 +13,11 @@ return:
 		 'statue_meachine':int,
 		 })
 
+
+Not consider net communication time
+lr  run time :0.25 ms
+svm run time :0.05 ms
+
+
+Deploy Django web server with uWSGI and nginx
+https://uwsgi.readthedocs.io/en/latest/tutorials/Django_and_nginx.html
