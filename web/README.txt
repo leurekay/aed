@@ -21,3 +21,13 @@ svm run time :0.05 ms
 
 Deploy Django web server with uWSGI and nginx
 https://uwsgi.readthedocs.io/en/latest/tutorials/Django_and_nginx.html
+
+
+
+
+
+$ pip install uwsgi
+
+
+change dir to the base
+$ uwsgi --http :8000 --module my_api.wsgi

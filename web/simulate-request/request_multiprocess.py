@@ -16,7 +16,7 @@ import random
 url_root='http://47.99.132.9/'
 N=1000
 
-N_process=1
+N_process=10
 
 box=[]
 

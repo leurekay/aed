@@ -1,0 +1,51 @@
+Prepare:
+sudo apt-get update
+
+sudo apt-get install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    software-properties-common
+
+url -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+
+sudo apt-key fingerprint 0EBFCD88
+
+sudo add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable"
+
+
+
+
+Install:
+sudo apt-get update
+
+sudo apt-get install docker-ce
+
+
+
+
+Test:
+sudo docker run hello-world
+
+
+
+Add user to the group of docker:
+sudo usermod -aG docker your-user
+
+
+
+
+Uninstall:
+sudo apt-get purge docker-ce
+
+
+
+Remove images, containers, volumes, or customized configuration files on your host:
+sudo rm -rf /var/lib/docker
+
+
+
