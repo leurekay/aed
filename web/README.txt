@@ -54,3 +54,12 @@ $ pip install uwsgi
 
 change dir to the base
 $ uwsgi --http :8000 --module my_api.wsgi
+
+
+
+
+start nginx: 
+$ sudo /etc/init.d/nginx restart
+
+start uwsgi
+$ uwsgi --socket :8001 --module my_api.wsgi

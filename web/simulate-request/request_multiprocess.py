@@ -13,10 +13,11 @@ from urllib import request
 import numpy as np
 import random
 
-url_root='http://47.99.132.9/'
-N=1000
+url_root='http://47.98.143.170/'
+#url_root='http://localhost:8000/'
+N=2000
 
-N_process=1
+N_process=20
 
 box=[]
 
