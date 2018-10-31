@@ -52,11 +52,15 @@ https://uwsgi.readthedocs.io/en/latest/tutorials/Django_and_nginx.html
 $ pip install uwsgi
 
 
+
+
+
 change dir to the base
 $ uwsgi --http :8000 --module my_api.wsgi
 
 
-
+link mysite_nginx.conf to the nginx dir
+$ sudo ln -s ~/code/aed/web/my_api/mysite_nginx.conf /etc/nginx/sites-enabled/
 
 start nginx: 
 $ sudo /etc/init.d/nginx restart
