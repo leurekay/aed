@@ -43,8 +43,8 @@ def lr_decay(epoch):
         lr=0.000003
     return lr
 
-split=0.8
-n_epochs=1000
+split=0.99
+n_epochs=2000
 excel_path='excels/data_all.xlsx'
 df=pd.read_excel(excel_path)
 
@@ -68,7 +68,7 @@ def data_augument(data,label,n_times=2):
     box=[data]
     for _ in range(n_times):
         m,n=data.shape
-        dummy=data+np.random.randint(-10,10,[m,n])
+        dummy=data+np.random.randint(-30,30,[m,n])
         box.append(dummy)
     return np.concatenate(box),np.concatenate([label]*(n_times+1))
 
@@ -98,8 +98,9 @@ inputs = Input(shape=(n_input,))
 # a layer instance is callable on a tensor, and returns a tensor
 x = Dense(32, activation='relu')(inputs)
 x = Dense(64, activation='relu')(x)
+x = Dense(32, activation='relu')(x)
 x = Dense(16, activation='relu')(x)
-x=Dropout(0.1)(x)
+#x=Dropout(0.1)(x)
 predictions = Dense(4, activation='softmax')(x)
 
 # This creates a model that includes
