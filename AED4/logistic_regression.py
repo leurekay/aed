@@ -83,7 +83,7 @@ class Classifier():
 #        return recall,precision,1,1
         
 if __name__=='__main__':
-    split=0.9
+    split=0.99
     model_battery_path='model/lr_battery.pkl'
     model_meachine_path='model/lr_meachine.pkl'
     excel_path='excels/data_all.xlsx'

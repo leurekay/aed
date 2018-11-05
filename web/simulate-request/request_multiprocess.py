@@ -15,8 +15,8 @@ import random
 
 #url_root='http://192.168.11.89:8000/'
 #url_root='http://localhost:8000/'
-url_root='http://47.98.143.170:8000/'
-#url_root='http://47.99.132.9/'
+#url_root='http://47.98.143.170:8000/'
+url_root='http://47.99.132.9/'
 
 N=10000
 

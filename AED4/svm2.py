@@ -238,7 +238,7 @@ class SVM(Classifier):
 
 
 if __name__=='__main__':
-    split=0.9
+    split=0.99
     model_battery_path='model/svm_battery.pkl'
     model_meachine_path='model/svm_meachine.pkl'
     excel_path='excels/data_all.xlsx'
