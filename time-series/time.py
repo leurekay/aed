@@ -43,19 +43,28 @@ for cali in unique_calibrations:
     sub_df=df[(df.R1_==cali[0]) & (df.R2_==cali[1]) & (df.G1_==cali[2]) & (df.G2_==cali[3])]
     device_data[cali]=sub_df
 
-key=unique_calibrations[6]
+key=unique_calibrations[2]
 value=device_data[key]
 N=value.shape[0]
 index=filter(lambda x: x%10==0,range(N))
 value=value.iloc[index]
+
 fig=plt.figure(figsize=[12,12])
-plt.subplot(211)
+plt.subplot(111)
 plt.plot(index,value['R1'],'r')
-#plt.annotate('(%d)'%(key[0]),[300,4000],[300,4001],fontsize=20,arrowprops=dict(facecolor='black',shrink=0.05))
+plt.plot(index,value['G1'],'g')
+plt.plot(index,value['B1'],'b')
+
+plt.plot(index,value['R2'],'r',linewidth=3)
+plt.plot(index,value['G2'],'g',linewidth=3)
+plt.plot(index,value['B2'],'b',linewidth=3)
+plt.legend(fontsize=20)
+plt.xlabel('Time (2 min)',fontsize=15)
 #plt.legend('ca',fontsize=20)
 
-plt.subplot(212)
-plt.plot(index,value['R2'])
+#plt.subplot(212)
+#plt.plot(index,value['R2'])
+
 #plt.subplot(323)
 #plt.plot(index,value['G1'])
 #plt.subplot(324)
