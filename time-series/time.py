@@ -43,7 +43,7 @@ for cali in unique_calibrations:
     sub_df=df[(df.R1_==cali[0]) & (df.R2_==cali[1]) & (df.G1_==cali[2]) & (df.G2_==cali[3])]
     device_data[cali]=sub_df
 
-key=unique_calibrations[2]
+key=unique_calibrations[14]
 value=device_data[key]
 N=value.shape[0]
 index=filter(lambda x: x%10==0,range(N))
@@ -60,6 +60,7 @@ plt.plot(index,value['G2'],'g',linewidth=3)
 plt.plot(index,value['B2'],'b',linewidth=3)
 plt.legend(fontsize=20)
 plt.xlabel('Time (2 min)',fontsize=15)
+plt.title(str(key[0])+'-'+str(key[1])+'-'+str(key[2])+'-'+str(key[3])+'-'+str(key[4])+'-'+str(key[5]),fontsize=20)
 #plt.legend('ca',fontsize=20)
 
 #plt.subplot(212)
