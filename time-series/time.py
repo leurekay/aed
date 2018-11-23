@@ -17,20 +17,26 @@ path='log.out'
 with open(path,'r') as f:
     txt=f.readlines()
     
-s=txt[6]
 
 comp=re.compile('[1-9]\d*-[1-9]\d*-[1-9]\d*-[1-9]\d*-[1-9]\d*-[1-9]\d*-[1-9]\d*-[1-9]\d*-[1-9]\d*-[1-9]\d*-[1-9]\d*-[1-9]\d*')
 box=[]
+box_time=[]
 for s in txt:  
+    timestamp=s.split('[')[-1].split(']')[0]
+
     data=comp.findall(s)
-    box.append(data)
+    if len(data)>0:
+        box_time.append(timestamp)
+        box.append(data)
     
-box=filter(lambda x : len(x)>0,box)
+#box=filter(lambda x : len(x)>0,box)
 box=map(lambda x:x[0].split('-'),box)
 box=np.array(box,'int')
 
 features=['R1','R1_','R2','R2_','G1','G1_','G2','G2_','B1','B1_','B2','B2_']
 df=pd.DataFrame(box,columns=features)
+df['timestamp']=box_time
+df['timestamp']=df.apply(lambda x:pd.Timestamp(x.loc['timestamp']),axis=1)
 
 g_df=df.groupby(['R1_','R2_','G1_','G2_','B1_','B2_'])
 count_df=g_df.count()
@@ -42,8 +48,12 @@ device_data={}
 for cali in unique_calibrations:
     sub_df=df[(df.R1_==cali[0]) & (df.R2_==cali[1]) & (df.G1_==cali[2]) & (df.G2_==cali[3])]
     device_data[cali]=sub_df
+    key_str=str(cali[0])+'-'+str(cali[1])+'-'+str(cali[2])+'-'+str(cali[3])+'-'+str(cali[4])+'-'+str(cali[5])
+
+    sub_df.to_csv('data/nohup/'+key_str+'.csv',index=None)
 
 key=unique_calibrations[14]
+key_str=str(key[0])+'-'+str(key[1])+'-'+str(key[2])+'-'+str(key[3])+'-'+str(key[4])+'-'+str(key[5])
 value=device_data[key]
 N=value.shape[0]
 index=filter(lambda x: x%10==0,range(N))
@@ -60,7 +70,7 @@ plt.plot(index,value['G2'],'g',linewidth=3)
 plt.plot(index,value['B2'],'b',linewidth=3)
 plt.legend(fontsize=20)
 plt.xlabel('Time (2 min)',fontsize=15)
-plt.title(str(key[0])+'-'+str(key[1])+'-'+str(key[2])+'-'+str(key[3])+'-'+str(key[4])+'-'+str(key[5]),fontsize=20)
+plt.title(key_str,fontsize=20)
 #plt.legend('ca',fontsize=20)
 
 #plt.subplot(212)

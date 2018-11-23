@@ -50,6 +50,8 @@ df_rgb=df_rgb[df_rgb['R1_']==most_frequence]
 
 cali_value=df_rgb.loc[1,['R1_','R2_','G1_','G2_','B1_','B2_']]
 cali_value=np.array(cali_value,'int')
+key_str=str(cali_value[0])+'-'+str(cali_value[1])+'-'+str(cali_value[2])+'-'+str(cali_value[3])+'-'+str(cali_value[4])+'-'+str(cali_value[5])
+df_rgb.to_csv('data/database/'+key_str+'.csv',index=None)
 
 df_rgb=df_rgb[df_rgb.index%1==0]
 n_data=df_rgb.shape[0]
