@@ -20,6 +20,8 @@ import neural_pred
 @csrf_exempt
 def predict(request,param):
     zipdata=param.split('-')
+    uids=zipdata[12:]
+    zipdata=zipdata[:12]
     zipdata=map(lambda x:int(x),zipdata)
     statue1,statue_battery1,statue_meachine1,confidence_battery1,confidence_meachine1=lr_pred.statue_judge(zipdata)
     statue2,statue_battery2,statue_meachine2,confidence_battery2,confidence_meachine2=svm_pred.statue_judge(zipdata)
