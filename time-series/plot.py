@@ -14,11 +14,11 @@ import matplotlib.pyplot as plt
 merge_dir='data/merge/'
 merge_list=os.listdir(merge_dir)
 
-name=merge_list[3]
+name=merge_list[0]
 path=os.path.join(merge_dir,name)
 df=pd.read_csv(path)
 df['timestamp']=df.apply(lambda x:pd.Timestamp(x.loc['timestamp']),axis=1)
-df_rgb=df[df.index%2==0]
+df_rgb=df[df.index%1==0]
 n_data=df_rgb.shape[0]
 index=range(n_data)
 fig=plt.figure(figsize=[12,12])
