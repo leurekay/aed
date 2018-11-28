@@ -41,8 +41,8 @@ def statue_judge(zip_rgb):
     battery=pred(r1-r1_,g1-g1_,b1-b1_,coef_b)
     meachine=pred(r2-r2_,g2-g2_,b2-b2_,coef_m)
 
-    confidence_b=666
-    confidence_m=666
+    confidence_b=0.9
+    confidence_m=0.9
     
     if battery==0 and meachine==0:
         total_statue=0

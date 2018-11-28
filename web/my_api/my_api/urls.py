@@ -17,8 +17,8 @@ Including another URLconf
 from django.conf.urls import url,include
 from django.contrib import admin
 
-import views
-#from  algorithm import views
+#import views
+from  algorithm import views
 
 
 urlpatterns = [
