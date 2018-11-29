@@ -7,9 +7,9 @@ import django.utils.timezone as timezone
  
  
 class RGB(models.Model):
-    uid = models.CharField(max_length=30,default='aaaaaa')
-    timestamp = models.IntegerField(default=0)
-    datetime = models.DateTimeField(default = timezone.now)
+    Uid = models.CharField(max_length=30,default='123456789')
+    Timestamp = models.IntegerField(default=1000000000)
+    Datetime = models.DateTimeField(default = timezone.now)
     R1 = models.IntegerField(default=-999)
     R1C= models.IntegerField(default=-999)  
     R2 = models.IntegerField(default=-999)
@@ -22,3 +22,6 @@ class RGB(models.Model):
     B1C = models.IntegerField(default=-999)  
     B2 = models.IntegerField(default=-999)
     B2C = models.IntegerField(default=-999)  
+    Statue1=models.IntegerField(default=10)
+    Statue2=models.IntegerField(default=10)
+    Statue3=models.IntegerField(default=10)

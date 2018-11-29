@@ -30,10 +30,11 @@ def predict(request,param):
     statue2,statue_battery2,statue_meachine2,confidence_battery2,confidence_meachine2=svm_pred.statue_judge(zipdata)
     statue3,confidence3=neural_pred.statue_judge(zipdata)
     
-    rgb=RGB(uid=uids[0],timestamp=int(time.time()),datetime=timezone.now(),
+    rgb=RGB(Uid=uids[0],Timestamp=int(time.time()),Datetime=timezone.now(),
             R1=zipdata[0],R1C=zipdata[1],R2=zipdata[2],R2C=zipdata[3],
             G1=zipdata[4],G1C=zipdata[5],G2=zipdata[6],G2C=zipdata[7],
-            B1=zipdata[8],B1C=zipdata[9],B2=zipdata[10],B2C=zipdata[11])
+            B1=zipdata[8],B1C=zipdata[9],B2=zipdata[10],B2C=zipdata[11],
+            Statue1=statue1,Statue2=statue2,Statue3=statue3)
     rgb.save()
     
     return JsonResponse({'input': param, 
