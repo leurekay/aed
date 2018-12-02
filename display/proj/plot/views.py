@@ -13,6 +13,7 @@ import numpy as np
 import sqlite3
 
 from django.conf import settings
+from models import AlgorithmRgb
 try:
     basedir=settings.BASE_DIR
 except:
@@ -57,9 +58,10 @@ def add(request):
     color= request.GET['color']
     uid=request.GET['uid']
     uid=str(uid)
-    print (type(uid),uid,db_path)
-    print (table_name)
-    df=pull_data(uid)
+  
+    s=AlgorithmRgb.objects.filter(uid=id1)
+    print(s[0])
+#    df=pull_data(uid)
 #    a=df.loc[0,'R1']
 
     return HttpResponse('222')
