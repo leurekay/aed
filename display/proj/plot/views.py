@@ -10,6 +10,10 @@ import django.utils.timezone as timezone
 import os
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('Agg')
+
 import sqlite3
 
 from django.conf import settings
@@ -21,6 +25,7 @@ except:
     
     
 db_path=os.path.join(basedir,'static/test.sqlite3')
+media_dir=os.path.join(basedir,'static/media')
 
 table_name='algorithm_rgb'
 id1='868994037706145'
@@ -59,14 +64,21 @@ def add(request):
     uid=request.GET['uid']
     uid=str(uid)
   
-    s=AlgorithmRgb.objects.filter(Uid=id1)
-    t=map(lambda x:x.Datetime,s)
-
-    print(t)
-#    df=pull_data(uid)
-#    a=df.loc[0,'R1']
-
-    return HttpResponse('222')
+    select=AlgorithmRgb.objects.filter(Uid=uid)
+    select.all().order_by("Datetime")
+    t=map(lambda x:x.Datetime,select)
+    y=select.values(color)
+    y=map(lambda x : x[color],y)
+    fig=plt.figure(figsize=[18,9])
+    plt.subplot(111)
+    plt.plot(t,y,'r',linewidth=1)
+#    plt.legend(fontsize=20)
+    plt.xlabel('Time',fontsize=15)
+    img_path=os.path.join(media_dir,uid+color+'.jpg')
+    plt.savefig(img_path)
+    time.sleep(1)
+    target_name=os.path.join('/static/media/',uid+color+'.jpg')
+    return HttpResponse('<img src="%s" height="1800" width="3600" />  <br/>'%(target_name))
 
 if __name__=='__main__':
     pass
