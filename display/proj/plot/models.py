@@ -12,25 +12,26 @@ from django.db import models
 
 class AlgorithmRgb(models.Model):
 #    id = models.IntegerField(primary_key=True)  # AutoField?
-    r1 = models.IntegerField(db_column='R1')  # Field name made lowercase.
-    r1c = models.IntegerField(db_column='R1C')  # Field name made lowercase.
-    r2 = models.IntegerField(db_column='R2')  # Field name made lowercase.
-    r2c = models.IntegerField(db_column='R2C')  # Field name made lowercase.
-    g1 = models.IntegerField(db_column='G1')  # Field name made lowercase.
-    g1c = models.IntegerField(db_column='G1C')  # Field name made lowercase.
-    g2 = models.IntegerField(db_column='G2')  # Field name made lowercase.
-    g2c = models.IntegerField(db_column='G2C')  # Field name made lowercase.
-    b1 = models.IntegerField(db_column='B1')  # Field name made lowercase.
-    b1c = models.IntegerField(db_column='B1C')  # Field name made lowercase.
-    b2 = models.IntegerField(db_column='B2')  # Field name made lowercase.
-    b2c = models.IntegerField(db_column='B2C')  # Field name made lowercase.
-    datetime = models.DateTimeField(db_column='Datetime')  # Field name made lowercase.
-    statue1 = models.IntegerField(db_column='Statue1')  # Field name made lowercase.
-    statue2 = models.IntegerField(db_column='Statue2')  # Field name made lowercase.
-    statue3 = models.IntegerField(db_column='Statue3')  # Field name made lowercase.
-    timestamp = models.IntegerField(db_column='Timestamp')  # Field name made lowercase.
-    uid = models.CharField(db_column='Uid', max_length=30)  # Field name made lowercase.
-
+    R1 = models.IntegerField(db_column='R1')  # Field name made lowercase.
+    R1C = models.IntegerField(db_column='R1C')  # Field name made lowercase.
+    R2 = models.IntegerField(db_column='R2')  # Field name made lowercase.
+    R2C = models.IntegerField(db_column='R2C')  # Field name made lowercase.
+    G1 = models.IntegerField(db_column='G1')  # Field name made lowercase.
+    G1C = models.IntegerField(db_column='G1C')  # Field name made lowercase.
+    G2 = models.IntegerField(db_column='G2')  # Field name made lowercase.
+    G2C = models.IntegerField(db_column='G2C')  # Field name made lowercase.
+    B1 = models.IntegerField(db_column='B1')  # Field name made lowercase.
+    B1C = models.IntegerField(db_column='B1C')  # Field name made lowercase.
+    B2 = models.IntegerField(db_column='B2')  # Field name made lowercase.
+    B2C = models.IntegerField(db_column='B2C')  # Field name made lowercase.
+    Datetime = models.DateTimeField(db_column='Datetime')  # Field name made lowercase.
+    Statue1 = models.IntegerField(db_column='Statue1')  # Field name made lowercase.
+    Statue2 = models.IntegerField(db_column='Statue2')  # Field name made lowercase.
+    Statue3 = models.IntegerField(db_column='Statue3')  # Field name made lowercase.
+    Timestamp = models.IntegerField(db_column='Timestamp')  # Field name made lowercase.
+    Uid = models.CharField(db_column='Uid', max_length=30)  # Field name made lowercase.
+    def __unicode__(self):   
+        return u'%s--- %s---%d-%d-%d-%d-%d-%d-%d-%d-%d-%d-%d-%d' % (self.Datetime, self.Uid,self.R1,self.R1C,self.R2,self.R2C,self.G1,self.G1C,self.G2,self.G2C,self.B1,self.B1C,self.B2,self.B2C)
     class Meta:
         managed = True
         db_table = 'algorithm_rgb'

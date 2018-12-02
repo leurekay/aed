@@ -25,3 +25,9 @@ class RGB(models.Model):
     Statue1=models.IntegerField(default=10)
     Statue2=models.IntegerField(default=10)
     Statue3=models.IntegerField(default=10)
+
+    def __unicode__(self):
+        
+        return u'%s--- %s---%d-%d-%d-%d-%d-%d-%d-%d-%d-%d-%d-%d' % (self.Datetime, self.Uid,self.R1,self.R1C,self.R2,self.R2C,self.G1,self.G1C,self.G2,self.G2C,self.B1,self.B1C,self.B2,self.B2C)
+
+    

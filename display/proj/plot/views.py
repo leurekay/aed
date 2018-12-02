@@ -59,8 +59,10 @@ def add(request):
     uid=request.GET['uid']
     uid=str(uid)
   
-    s=AlgorithmRgb.objects.filter(uid=id1)
-    print(s[0])
+    s=AlgorithmRgb.objects.filter(Uid=id1)
+    t=map(lambda x:x.Datetime,s)
+
+    print(t)
 #    df=pull_data(uid)
 #    a=df.loc[0,'R1']
 
