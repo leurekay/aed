@@ -86,14 +86,17 @@ def getData(request):
     endDate = request.GET.get("endDate")
     
     color=request.GET.get("color")
-    print(endDate,color)
+    uid=request.GET.get("uid")
+    print(endDate,color,uid)
 
     select=AlgorithmRgb.objects.filter(Uid=id1)
     select.all().order_by("Datetime")
     t=map(lambda x:x.Datetime,select)
     y=select.values('R1')
-    y=map(lambda x : x['R1'],y)  
-    appRank = {'a':y}
+    y=map(lambda x : x['R1'],y[:100])  
+    
+    ty=[[t[i],y[i]] for i in range(len(y))]
+    appRank = {'a':ty}
     return JsonResponse(appRank)
 
 

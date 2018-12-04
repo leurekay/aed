@@ -41,17 +41,18 @@
             $("#query").click(function() {
                 var beginDate = $("#beginDate").val();
                 var endDate = $("#endDate").val();
-    
+                var color = $("#color").val()
+                var uid = $("#uid").val()
 
                 // 将appNames连接成字符串
-                queryReport(beginDate, endDate);
+                queryReport(beginDate, endDate,color,uid);
             });
         })
 
         var lineChart;
 
         // 获取绘图数据
-        function queryReport(beginDate, endDate) {
+        function queryReport(beginDate, endDate,color,uid) {
             // 清空原有绘图数据
             $("#container")[0].innerHTML = "";
             // 初始化折线图参数
@@ -111,7 +112,7 @@
                                                 plotOptions: {
                                                     column: {
                                                         dataLabels: {
-                                                            enabled: true
+                                                            enabled: false
                                                         },
                                                         enableMouseTracking: true
                                                     },
@@ -126,7 +127,9 @@
                                             });
             // 构造url参数
             parameters = {'beginDate': beginDate,
-                        'endDate': endDate
+                        'endDate': endDate,
+                        'color':color,
+                        'uid':uid
                         };
 
             // 请求绘图数据
@@ -159,7 +162,7 @@
             
             <li>
                 <label for="color">Color: </label>
-                <select id="color">
+                <select id="color" name="color">
                   <option>    R1    </option> 
                   <option>    R2    </option> 
                   <option>    G1    </option> 
