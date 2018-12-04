@@ -10,8 +10,8 @@ import django.utils.timezone as timezone
 import os
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-plt.switch_backend('agg')
+#import matplotlib.pyplot as plt
+#plt.switch_backend('agg')
 
 import sqlite3
 
@@ -70,16 +70,17 @@ def add(request):
     t=map(lambda x:x.Datetime,select)
     y=select.values(color)
     y=map(lambda x : x[color],y)
-    fig=plt.figure(figsize=[18,9])
-    plt.subplot(111)
-    plt.plot(t,y,'r',linewidth=1)
-#    plt.legend(fontsize=20)
-    plt.xlabel('Time',fontsize=15)
-    img_path=os.path.join(media_dir,uid+color+'.jpg')
-    plt.savefig(img_path)
-    time.sleep(1)
-    target_name=os.path.join('/static/media/',uid+color+'.jpg')
-    return HttpResponse('<img src="%s" height="1800" width="3600" />  <br/>'%(target_name))
+#    fig=plt.figure(figsize=[18,9])
+#    plt.subplot(111)
+#    plt.plot(t,y,'r',linewidth=1)
+##    plt.legend(fontsize=20)
+#    plt.xlabel('Time',fontsize=15)
+#    img_path=os.path.join(media_dir,uid+color+'.jpg')
+#    plt.savefig(img_path)
+#    time.sleep(1)
+#    target_name=os.path.join('/static/media/',uid+color+'.jpg')
+#    return HttpResponse('<img src="%s" height="1800" width="3600" />  <br/>'%(target_name))
+    return HttpResponse('hhhhhhhhhhhhhhhhhhhhhhhhhh')
 
 def getData(request):
     max_points=1000
@@ -96,6 +97,8 @@ def getData(request):
     y=select.values(color)
     y=map(lambda x : x[color],y)
     n=len(y)
+    if n==0:
+        return []
     interval=int(np.ceil(n/float(max_points)))
     indexs=range(0,n,interval)
     print(interval)
