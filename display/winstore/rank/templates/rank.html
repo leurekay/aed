@@ -1,0 +1,290 @@
+<head>
+    {% load static %}
+    <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/highcharts.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery-ui.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/exporting.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.multiselect.min.js' %}"></script>
+
+    <link rel="stylesheet" href="{% static 'css/jquery-ui.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/jquery.multiselect.css' %}">
+    <link rel="stylesheet" href="{% static 'css/screen1.css' %}">
+
+    <style type="text/css">
+        #set-content ul li #chart{
+            width: 60px;
+            font-size: 12px;
+            height: 22px;
+        }
+
+
+    </style>
+
+    <script type="text/javascript">
+
+        // 设定开始日期和结束日期，默认为最近10天
+        $(function() {
+            $("#beginDate").datepicker({dateFormat: "yy-mm-dd"});
+            $("#endDate").datepicker({dateFormat: "yy-mm-dd"});
+            var dateNow = new Date();
+            var str_dateNow = dateNow.getFullYear() + "-" + (dateNow.getMonth() + 1) + "-" + dateNow.getDate();
+            var dateBegin = new Date(dateNow - 10 * 1000 * 3600 * 24);
+            var str_dateBegin = dateBegin.getFullYear() + "-" + (dateBegin.getMonth() + 1) + "-" + dateBegin.getDate();
+            $("#beginDate").datepicker("setDate", str_dateBegin);
+            $("#endDate").datepicker("setDate", str_dateNow);
+        });
+
+
+        // 动态获取数据库中region数据，填充入下拉列表
+        $(function() {
+            $.get("/getWinstoreRegions",
+                    {"limit": "0"},
+                    function(regionsDict) {
+                        for (var id in regionsDict) {
+                            regionOption = "<option value='" + id + "'>" + regionsDict[id] + "</option>";
+                            $("#region").append(regionOption);
+                        }
+                    },
+                    "json"
+                 )
+        });
+
+
+        // 动态获取数据库中chart数据，填充入下拉列表
+        $(function() {
+            $.get("/getWinstoreCharts",
+                    {"limit": "0"},
+                    function(chartsDict) {
+                        for (var id in chartsDict) {
+                            chartOption = "<option value='" + id + "'>" + chartsDict[id] + "</option>";
+                            $("#chart").append(chartOption);
+                        }
+                    },
+                    "json"
+                    )
+        });
+
+
+        // 动态获取数据库中category数据，填充入下拉列表
+        $(function() {
+            $.get("/getWinstoreCategories",
+                    {"limit": "0"},
+                    function(categoriesDict) {
+                        for (var id in categoriesDict) {
+                            categoryOption = "<option value='" + id + "'>" + categoriesDict[id] + "</option>";
+                            $("#category").append(categoryOption);
+                        }
+                    },
+                    "json"
+                    )
+        });
+
+
+        // 动态获取数据库中app名字，填充入下拉列表
+        $(function() {
+            $.get( "/getWinstoreApps",
+                {"limit":"0",},
+                function(dataDict) {
+                    // 循环添加下拉列表的option
+                    for (var id in dataDict) {
+                        appOption = "<option value='" + id + "'>" + dataDict[id] + "</option>";
+                        $("#appName").append(appOption);
+                    }
+                    // 初始化多选
+                    $("#appName").multiselect({header: false,});
+                    // 选中所有下拉列表项
+                    $("#appName").multiselect("checkAll");
+                    // 动态设置多选框的宽度
+                    var ulList = $(".ui-multiselect-checkboxes")[0];
+                    // 必须先单击多选下拉列表，然后才可以获取对应元素的宽度值
+                    $(".ui-multiselect")[0].click();
+                    var maxWidth = 0;
+                    for (var i = 0; i < ulList.childElementCount; i++) {
+                        var currentInputWidth = $(ulList.childNodes[i]).find("input")[0].offsetWidth;
+                        var currentSpanWidth = $(ulList.childNodes[i]).find("span")[0].offsetWidth;
+                        var currentWidth = currentSpanWidth + currentInputWidth * 3;
+                        if (currentWidth > maxWidth) {
+                            maxWidth = currentWidth;
+                        }
+                    }
+                    // 设置对应标签的宽度
+                    $($(".ui-multiselect")[0]).width(maxWidth);
+                    $($(".ui-multiselect-menu")[0]).width(maxWidth + 6);
+                    // 二次单击
+                    $(".ui-multiselect")[0].click();
+                },
+                "json");
+        });
+
+
+        // 绑定query按钮的单击操作
+        $(function() {
+            $("#query").click(function() {
+                var region = $("#region").val();
+                var beginDate = $("#beginDate").val();
+                var endDate = $("#endDate").val();
+                var chart = $("#chart").val();
+                var appNames = $("#appName").val();
+                var category = $("#category").val();
+
+                // 将appNames连接成字符串
+                queryReport(region, beginDate, endDate, chart, category, appNames.join("@"));
+            });
+        })
+
+        var lineChart;
+
+        // 获取绘图数据
+        function queryReport(region, beginDate, endDate, chart, category, appNames) {
+            // 清空原有绘图数据
+            $("#container")[0].innerHTML = "";
+            // 初始化折线图参数
+                var lineChart = new Highcharts.Chart({
+                                                chart: {
+                                                    renderTo: 'container',
+                                                    type: 'line'
+                                                },
+
+                                                title: {
+                                                    text: 'Daily Ranking',
+                                                    style: {fontFamily: 'Helvetica', fontWeight: '200'}
+                                                },
+
+                                                subtitle: {
+                                                    text: 'By Product',
+                                                    style: {fontFamily: 'Helvetica', fontWeight: '200'}
+                                                },
+
+                                                xAxis: [{ // master axis
+                                                    type: 'datetime',
+                                                    gridLineWidth:1,
+                                                    gridLineDashStyle: 'longdash',
+                                                    tickInterval: 24 * 3600 * 1000,
+                                                }, { // slave axis
+                                                    type: 'datetime',
+                                                    linkedTo: 0,
+                                                    opposite: true,
+                                                    tickInterval: 24 * 3600 * 1000,
+                                                    labels: {
+                                                        formatter: function () {return Highcharts.dateFormat('%a', this.value);}
+                                                    }
+                                                }],
+
+                                                tooltip: {
+                                                    headerFormat: '<span>{point.key}</span><br/>',
+                                                    pointFormat: '<span style="color:{series.color}">\u25AC</span> {series.name}: <b>{point.y}</b><br/>',
+                                                },
+
+                                                yAxis: [{ // Primary yAxis
+                                                    min:1,
+                                                    reversed: true,
+                                                    labels: {
+                                                        format: 'No. {value}',
+                                                        style: {
+                                                            color: '#4572A7'
+                                                        }
+                                                    },
+                                                    title: {
+                                                        text: 'Ranking',
+                                                        style: {
+                                                            color: '#4572A7'
+                                                            }
+                                                        }
+                                                    },
+                                                    { // Secondary yAxis
+                                                    min:1,
+                                                    reversed: true,
+                                                    title: {
+                                                        text: 'Ranking',
+                                                        style: {
+                                                            color: '#4572A7'
+                                                        }
+                                                    },
+                                                    labels: {
+                                                    format: 'No. {value}',
+                                                    style: {
+                                                        color: '#4572A7'
+                                                        }
+                                                    },
+                                                    opposite: true,
+                                                }],
+
+                                                plotOptions: {
+                                                    column: {
+                                                        dataLabels: {
+                                                            enabled: true
+                                                        },
+                                                        enableMouseTracking: true
+                                                    },
+                                                    line: {
+                                                        dataLabels: {
+                                                            enabled: true
+                                                        },
+                                                        enableMouseTracking: true
+                                                    }
+                                                },
+                                                series: [],
+                                            });
+            // 构造url参数
+            parameters = {'region': region,
+                        'beginDate': beginDate,
+                        'endDate': endDate,
+                        'chart': chart,
+                        'category': category,
+                        'appNames': appNames
+                        };
+
+            // 请求绘图数据
+            $.get("/getWinstoreRank",
+                    parameters,
+                    function(rankDict) {
+                        var ranksOfApp = new Array();
+                        for (var app in rankDict) {
+                            lineChart.addSeries({
+                                name: app,
+                                data: rankDict[app]
+                            });
+                        }
+                    },
+                    "json"
+                    );
+        }
+    </script>
+
+</head>
+
+
+<body>
+    <div id="set-content">
+        <ul>
+            <li>
+                <label for="region">Country/Region: </label>
+                <select id="region"></select>
+            </li>
+            <li>
+                <label for="beginDate">Begin Date: </label>
+                <input type="text" id="beginDate">
+            </li>
+            <li>
+                <label for="endDate">End Date: </label>
+                <input type="text" id="endDate">
+            </li>
+            <li>
+                <label for="chart">Chart: </label>
+                <select id="chart"></select>
+            </li>
+            <li>
+                <label for="category">Category: </label>
+                <select id="category"></select>
+            </li>
+            <li>
+                <label for="appName">App:</label>
+                <select id="appName" multiple="multiple" size="4"></select>
+            </li>
+            <li>
+                <button id='query'>Query</button>
+            </li>
+        </ul>
+    </div>
+    <div id="container"></div>
+</body>

@@ -1,0 +1,186 @@
+<head>
+    {% load static %}
+    <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/highcharts.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery-ui.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/exporting.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.multiselect.min.js' %}"></script>
+
+    <link rel="stylesheet" href="{% static 'css/jquery-ui.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/jquery.multiselect.css' %}">
+    <link rel="stylesheet" href="{% static 'css/screen1.css' %}">
+
+    <style type="text/css">
+        #set-content ul li #chart {
+            width: 60px;
+            font-size: 12px;
+            height: 22px;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+        // 设定开始日期和结束日期，默认为最近10天
+        $(function() {
+            $("#beginDate").datepicker({dateFormat: "yy-mm-dd"});
+            $("#endDate").datepicker({dateFormat: "yy-mm-dd"});
+            var dateNow = new Date();
+            var str_dateNow = dateNow.getFullYear() + "-" + (dateNow.getMonth() + 1) + "-" + dateNow.getDate();
+            var dateBegin = new Date(dateNow - 10 * 1000 * 3600 * 24);
+            var str_dateBegin = dateBegin.getFullYear() + "-" + (dateBegin.getMonth() + 1) + "-" + dateBegin.getDate();
+            $("#beginDate").datepicker("setDate", str_dateBegin);
+            $("#endDate").datepicker("setDate", str_dateNow);
+        });
+
+
+
+
+
+        // 绑定query按钮的单击操作
+        $(function() {
+            $("#query").click(function() {
+                var beginDate = $("#beginDate").val();
+                var endDate = $("#endDate").val();
+    
+
+                // 将appNames连接成字符串
+                queryReport(beginDate, endDate);
+            });
+        })
+
+        var lineChart;
+
+        // 获取绘图数据
+        function queryReport(beginDate, endDate) {
+            // 清空原有绘图数据
+            $("#container")[0].innerHTML = "";
+            // 初始化折线图参数
+                var lineChart = new Highcharts.Chart({
+                                                chart: {
+                                                    renderTo: 'container',
+                                                    type: 'line'
+                                                },
+
+                                                title: {
+                                                    text: 'Daily Ranking',
+                                                    style: {fontFamily: 'Helvetica', fontWeight: '200'}
+                                                },
+
+                                                subtitle: {
+                                                    text: 'By Product',
+                                                    style: {fontFamily: 'Helvetica', fontWeight: '200'}
+                                                },
+
+                                                xAxis: [{ // master axis
+                                                    type: 'datetime',
+                                                    gridLineWidth:1,
+                                                    gridLineDashStyle: 'longdash',
+                                                    tickInterval: 24 * 3600 * 1000,
+                                                }, { // slave axis
+                                                    type: 'datetime',
+                                                    linkedTo: 0,
+                                                    opposite: true,
+                                                    tickInterval: 24 * 3600 * 1000,
+                                                    labels: {
+                                                        formatter: function () {return Highcharts.dateFormat('%a', this.value);}
+                                                    }
+                                                }],
+
+                                                tooltip: {
+                                                    headerFormat: '<span>{point.key}</span><br/>',
+                                                    pointFormat: '<span style="color:{series.color}">\u25AC</span> {series.name}: <b>{point.y}</b><br/>',
+                                                },
+
+                                                yAxis: [{ // Primary yAxis
+                                                    min:1,
+                                                    reversed: false,
+                                                    labels: {
+                                                        format: 'No. {value}',
+                                                        style: {
+                                                            color: '#4572A7'
+                                                        }
+                                                    },
+                                                    title: {
+                                                        text: 'Ranking',
+                                                        style: {
+                                                            color: '#4572A7'
+                                                            }
+                                                        }
+                                                    }],
+
+                                                plotOptions: {
+                                                    column: {
+                                                        dataLabels: {
+                                                            enabled: true
+                                                        },
+                                                        enableMouseTracking: true
+                                                    },
+                                                    line: {
+                                                        dataLabels: {
+                                                            enabled: true
+                                                        },
+                                                        enableMouseTracking: true
+                                                    }
+                                                },
+                                                series: [],
+                                            });
+            // 构造url参数
+            parameters = {'beginDate': beginDate,
+                        'endDate': endDate
+                        };
+
+            // 请求绘图数据
+            $.get("/getData",
+                    parameters,
+                    function(rankDict) {
+                        var ranksOfApp = new Array();
+                        for (var app in rankDict) {
+                            lineChart.addSeries({
+                                name: app,
+                                data: rankDict['a']
+                            });
+                        }
+                    },
+                    "json"
+                    );
+        }
+    </script>
+
+</head>
+
+
+<body>
+    <div id="set-content">
+        <ul>
+            <li>
+                <label for="beginDate">Uid: </label>
+                <input type="text" id="uid" name="uid">
+            </li>
+            
+            <li>
+                <label for="color">Color: </label>
+                <select id="color">
+                  <option>    R1    </option> 
+                  <option>    R2    </option> 
+                  <option>    G1    </option> 
+                  <option>    G2    </option>
+                  <option>    B1    </option>
+                  <option>    B2    </option>
+                </select>
+            </li>
+            <li>
+                <label for="beginDate">Begin Date: </label>
+                <input type="text" id="beginDate">
+            </li>
+            <li>
+                <label for="endDate">End Date: </label>
+                <input type="text" id="endDate">
+            </li>
+     
+            <li>
+                <button id='query'>Query</button>
+            </li>
+        </ul>
+    </div>
+    <div id="container"></div>
+</body>

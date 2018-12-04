@@ -22,5 +22,6 @@ urlpatterns = [
     url('^admin/', admin.site.urls),
     url('^diagram/',  include('plot.urls')),
     url('^add/$', views.add),
+    url('^getData/$', views.getData),
     
 ]

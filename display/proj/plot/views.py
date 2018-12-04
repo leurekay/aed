@@ -11,8 +11,7 @@ import os
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib
-matplotlib.use('Agg')
+plt.switch_backend('agg')
 
 import sqlite3
 
@@ -57,6 +56,8 @@ def pull_data(uid):
 def index(request):
     return render(request, 'index.html')
 
+def index2(request):
+    return render(request, 'index2.html')
      
 def add(request):
 
@@ -79,6 +80,22 @@ def add(request):
     time.sleep(1)
     target_name=os.path.join('/static/media/',uid+color+'.jpg')
     return HttpResponse('<img src="%s" height="1800" width="3600" />  <br/>'%(target_name))
+
+def getData(request):
+    beginDate = request.GET.get("beginDate", "2018-01-22")
+    endDate = request.GET.get("endDate")
+    
+    color=request.GET.get("color")
+    print(endDate,color)
+
+    select=AlgorithmRgb.objects.filter(Uid=id1)
+    select.all().order_by("Datetime")
+    t=map(lambda x:x.Datetime,select)
+    y=select.values('R1')
+    y=map(lambda x : x['R1'],y)  
+    appRank = {'a':y}
+    return JsonResponse(appRank)
+
 
 if __name__=='__main__':
     pass
