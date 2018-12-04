@@ -59,70 +59,76 @@
                 var lineChart = new Highcharts.Chart({
                                                 chart: {
                                                     renderTo: 'container',
-                                                    type: 'line'
+                                                    zoomType: 'x'
                                                 },
 
-                                                title: {
-                                                    text: 'Daily Ranking',
-                                                    style: {fontFamily: 'Helvetica', fontWeight: '200'}
-                                                },
-
-                                                subtitle: {
-                                                    text: 'By Product',
-                                                    style: {fontFamily: 'Helvetica', fontWeight: '200'}
-                                                },
-
-                                                xAxis: [{ // master axis
-                                                    type: 'datetime',
-                                                    gridLineWidth:1,
-                                                    gridLineDashStyle: 'longdash',
-                                                    tickInterval: 24 * 3600 * 1000,
-                                                }, { // slave axis
-                                                    type: 'datetime',
-                                                    linkedTo: 0,
-                                                    opposite: true,
-                                                    tickInterval: 24 * 3600 * 1000,
-                                                    labels: {
-                                                        formatter: function () {return Highcharts.dateFormat('%a', this.value);}
-                                                    }
-                                                }],
-
-                                                tooltip: {
-                                                    headerFormat: '<span>{point.key}</span><br/>',
-                                                    pointFormat: '<span style="color:{series.color}">\u25AC</span> {series.name}: <b>{point.y}</b><br/>',
-                                                },
-
-                                                yAxis: [{ // Primary yAxis
-                                                    min:1,
-                                                    reversed: false,
-                                                    labels: {
-                                                        format: 'No. {value}',
-                                                        style: {
-                                                            color: '#4572A7'
-                                                        }
-                                                    },
-                                                    title: {
-                                                        text: 'Ranking',
-                                                        style: {
-                                                            color: '#4572A7'
-                                                            }
-                                                        }
-                                                    }],
-
-                                                plotOptions: {
-                                                    column: {
-                                                        dataLabels: {
-                                                            enabled: false
-                                                        },
-                                                        enableMouseTracking: true
-                                                    },
-                                                    line: {
-                                                        dataLabels: {
-                                                            enabled: true
-                                                        },
-                                                        enableMouseTracking: true
-                                                    }
-                                                },
+                                
+                                		title: {
+                                			text: '监控数值走势图'
+                                		},
+                                		subtitle: {
+                                			text: document.ontouchstart === undefined ?
+                                			'鼠标拖动可以进行缩放' : '手势操作进行缩放'
+                                		},
+                                		xAxis: {
+                                			type: 'datetime',
+                                			dateTimeLabelFormats: {
+                                				millisecond: '%H:%M:%S.%L',
+                                				second: '%H:%M:%S',
+                                				minute: '%H:%M',
+                                				hour: '%H:%M',
+                                				day: '%m-%d',
+                                				week: '%m-%d',
+                                				month: '%Y-%m',
+                                				year: '%Y'
+                                			}
+                                		},
+                                		tooltip: {
+                                			dateTimeLabelFormats: {
+                                				millisecond: '%H:%M:%S.%L',
+                                				second: '%H:%M:%S',
+                                				minute: '%H:%M',
+                                				hour: '%H:%M',
+                                				day: '%Y-%m-%d',
+                                				week: '%m-%d',
+                                				month: '%Y-%m',
+                                				year: '%Y'
+                                			}
+                                		},
+                                		yAxis: {
+                                			title: {
+                                				text: 'RGB value'
+                                			}
+                                		},
+                                		legend: {
+                                			enabled: false
+                                		},
+                                		plotOptions: {
+                                			area: {
+                                				fillColor: {
+                                					linearGradient: {
+                                						x1: 0,
+                                						y1: 0,
+                                						x2: 0,
+                                						y2: 1
+                                					},
+                                					stops: [
+                                						[0, Highcharts.getOptions().colors[0]],
+                                						[1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                                					]
+                                				},
+                                				marker: {
+                                					radius: 2
+                                				},
+                                				lineWidth: 1,
+                                				states: {
+                                					hover: {
+                                						lineWidth: 1
+                                					}
+                                				},
+                                				threshold: null
+                                			}
+                                		},
                                                 series: [],
                                             });
             // 构造url参数

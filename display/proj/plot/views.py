@@ -82,6 +82,7 @@ def add(request):
     return HttpResponse('<img src="%s" height="1800" width="3600" />  <br/>'%(target_name))
 
 def getData(request):
+    max_points=1000
     beginDate = request.GET.get("beginDate", "2018-01-22")
     endDate = request.GET.get("endDate")
     
@@ -89,13 +90,19 @@ def getData(request):
     uid=request.GET.get("uid")
     print(endDate,color,uid)
 
-    select=AlgorithmRgb.objects.filter(Uid=id1)
+    select=AlgorithmRgb.objects.filter(Uid=uid)
     select.all().order_by("Datetime")
     t=map(lambda x:x.Datetime,select)
-    y=select.values('R1')
-    y=map(lambda x : x['R1'],y[:100])  
+    y=select.values(color)
+    y=map(lambda x : x[color],y)
+    n=len(y)
+    interval=int(np.ceil(n/float(max_points)))
+    indexs=range(0,n,interval)
+    print(interval)
     
-    ty=[[t[i],y[i]] for i in range(len(y))]
+    
+    
+    ty=[[t[i],y[i]] for i in indexs]
     appRank = {'a':ty}
     return JsonResponse(appRank)
 
