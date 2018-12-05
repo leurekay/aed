@@ -10,7 +10,8 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 import time
-import datetime
+from datetime import datetime
+
 import django.utils.timezone as timezone
 import os
 
@@ -19,6 +20,11 @@ import svm_pred
 import neural_pred
 
 from models import RGB
+
+
+def timestamp2beijing(t):
+    time2 = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(t))
+    return time2
 
 @csrf_exempt
 def predict(request,param):
@@ -30,7 +36,10 @@ def predict(request,param):
     statue2,statue_battery2,statue_meachine2,confidence_battery2,confidence_meachine2=svm_pred.statue_judge(zipdata)
     statue3,confidence3=neural_pred.statue_judge(zipdata)
     
-    rgb=RGB(Uid=uids[0],Timestamp=int(time.time()),Datetime=timezone.now(),
+    t=int(time.time())
+    date1=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(t))
+    date1=datetime.strptime(date1,"%Y-%m-%d %H:%M:%S")
+    rgb=RGB(Uid=uids[0],Timestamp=int(time.time()),Datetime=date1,
             R1=zipdata[0],R1C=zipdata[1],R2=zipdata[2],R2C=zipdata[3],
             G1=zipdata[4],G1C=zipdata[5],G2=zipdata[6],G2C=zipdata[7],
             B1=zipdata[8],B1C=zipdata[9],B2=zipdata[10],B2C=zipdata[11],
