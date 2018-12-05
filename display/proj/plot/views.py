@@ -92,6 +92,7 @@ def getData(request):
     print(endDate,color,uid)
 
     select=AlgorithmRgb.objects.filter(Uid=uid)
+    select=select.filter(Datetime__range=[beginDate, endDate])
     select.all().order_by("Datetime")
     t=map(lambda x:x.Datetime,select)
     y=select.values(color)
