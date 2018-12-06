@@ -20,13 +20,13 @@
 
     <script type="text/javascript">
 
-        // 设定开始日期和结束日期，默认为最近10天
+        // 设定开始日期和结束日期，默认为最近60天
         $(function() {
             $("#beginDate").datepicker({dateFormat: "yy-mm-dd"});
             $("#endDate").datepicker({dateFormat: "yy-mm-dd"});
             var dateNow = new Date();
             var str_dateNow = dateNow.getFullYear() + "-" + (dateNow.getMonth() + 1) + "-" + dateNow.getDate();
-            var dateBegin = new Date(dateNow - 10 * 1000 * 3600 * 24);
+            var dateBegin = new Date(dateNow - 60 * 1000 * 3600 * 24);
             var str_dateBegin = dateBegin.getFullYear() + "-" + (dateBegin.getMonth() + 1) + "-" + dateBegin.getDate();
             $("#beginDate").datepicker("setDate", str_dateBegin);
             $("#endDate").datepicker("setDate", str_dateNow);
@@ -146,7 +146,7 @@
                         for (var app in rankDict) {
                             lineChart.addSeries({
                                 name: app,
-                                data: rankDict['a']
+                                data: rankDict[app]
                             });
                         }
                     },

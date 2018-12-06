@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect,HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
 import time
+from datetime import timedelta
 import django.utils.timezone as timezone
 import os
 import pandas as pd
@@ -97,6 +98,11 @@ def getData(request):
     t=map(lambda x:x.Datetime,select)
     y=select.values(color)
     y=map(lambda x : x[color],y)
+    
+    color_cali=color+'C'
+    z=select.values(color_cali)
+    z=map(lambda x : x[color_cali],z)
+    
     n=len(y)
     if n==0:
         return []
@@ -107,7 +113,9 @@ def getData(request):
     
     
     ty=[[t[i],y[i]] for i in indexs]
-    appRank = {'a':ty}
+    tz=[[t[i],z[i]] for i in indexs]
+#    appRank = {'value':ty,'calibration':tz}
+    appRank = {'value':ty}
     return JsonResponse(appRank)
 
 
