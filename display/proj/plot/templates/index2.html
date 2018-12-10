@@ -18,8 +18,8 @@
         }
     </style>
 
-    <script type="text/javascript">
 
+    <script type="text/javascript">
         // 设定开始日期和结束日期，默认为最近60天
         $(function() {
             $("#beginDate").datepicker({dateFormat: "yy-mm-dd"});
@@ -53,10 +53,20 @@
 
         // 获取绘图数据
         function queryReport(beginDate, endDate,color,uid) {
+        
+
+        
             // 清空原有绘图数据
             $("#container")[0].innerHTML = "";
+            
+            Highcharts.setOptions({
+                   global: {
+                       useUTC: false 
+                   }
+            });
             // 初始化折线图参数
                 var lineChart = new Highcharts.Chart({
+                
                                                 chart: {
                                                     renderTo: 'container',
                                                     zoomType: 'x'

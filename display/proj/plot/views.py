@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect,HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
 import time
+import datetime
 from datetime import timedelta
 import django.utils.timezone as timezone
 import os
@@ -91,14 +92,18 @@ def getData(request):
     beginDate = request.GET.get("beginDate", "2018-01-22")
     endDate = request.GET.get("endDate")
     
+    endDate_=datetime.datetime.strptime(endDate, "%Y-%m-%d")
+    endDate_=endDate_+timedelta(days=1)
+    endDate=endDate_
+    
     color=request.GET.get("color")
     uid=request.GET.get("uid")
-    print(endDate,color,uid)
 
     select=AlgorithmRgb.objects.filter(Uid=uid)
     select=select.filter(Datetime__range=[beginDate, endDate])
     select.all().order_by("Datetime")
-    t=map(lambda x:x.Datetime,select)
+#    t=map(lambda x:x.Datetime,select)
+    t=map(lambda x:int(1000*x.Timestamp),select)
     y=select.values(color)
     y=map(lambda x : x[color],y)
     
@@ -111,15 +116,39 @@ def getData(request):
         return []
     interval=int(np.ceil(n/float(max_points)))
     indexs=range(0,n,interval)
-    print(interval)
+
+    print(endDate,color,uid,interval)
     
     
     
     ty=[[t[i],y[i]] for i in indexs]
-    tz=[[t[i],z[i]] for i in indexs]
+    tz=[[t[i],y[i]] for i in indexs[200:]]
+    tt=[[1370131200000, 0.7695],
+        [1370217600000, 0.7648],
+        [1370304000000, 0.7645],
+        [1370390400000, 0.7638],
+        [1370476800000, 0.7549],
+        [1370563200000, 0.7562],
+        [1370736000000, 0.7574],
+        [1370822400000, 0.7543],
+        [1370908800000, 0.751],
+        [1370995200000, 0.7498]]
 #    appRank = {'value':ty,'calibration':tz}
     appRank = {'value':ty}
     return JsonResponse(appRank)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def getBigData(request):
     max_points=1000
