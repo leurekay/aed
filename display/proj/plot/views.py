@@ -59,6 +59,9 @@ def index(request):
 
 def index2(request):
     return render(request, 'index2.html')
+
+def index3(request):
+    return render(request, 'index3.html')
      
 def add(request):
 
@@ -108,6 +111,42 @@ def getData(request):
         return []
     interval=int(np.ceil(n/float(max_points)))
     indexs=range(0,n,interval)
+    print(interval)
+    
+    
+    
+    ty=[[t[i],y[i]] for i in indexs]
+    tz=[[t[i],z[i]] for i in indexs]
+#    appRank = {'value':ty,'calibration':tz}
+    appRank = {'value':ty}
+    return JsonResponse(appRank)
+
+def getBigData(request):
+    max_points=1000
+    beginDate = request.GET.get("beginDate", "2018-01-22")
+    endDate = request.GET.get("endDate")
+    
+    color=request.GET.get("color")
+    uid=request.GET.get("uid")
+    print(endDate,color,uid)
+
+    select=AlgorithmRgb.objects.filter(Uid=uid)
+    select=select.filter(Datetime__range=[beginDate, endDate])
+    select.all().order_by("Datetime")
+    t=map(lambda x:x.Datetime,select)
+    y=select.values(color)
+    y=map(lambda x : x[color],y)
+    
+    color_cali=color+'C'
+    z=select.values(color_cali)
+    z=map(lambda x : x[color_cali],z)
+    
+    n=len(y)
+    if n==0:
+        return []
+    interval=int(np.ceil(n/float(max_points)))
+#    indexs=range(0,n,interval)
+    indexs=range(n)
     print(interval)
     
     
