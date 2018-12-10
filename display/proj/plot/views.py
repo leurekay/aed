@@ -12,6 +12,7 @@ import django.utils.timezone as timezone
 import os
 import pandas as pd
 import numpy as np
+#from sklearn import linear_model
 #import matplotlib.pyplot as plt
 #plt.switch_backend('agg')
 
@@ -87,6 +88,23 @@ def add(request):
 #    return HttpResponse('<img src="%s" height="1800" width="3600" />  <br/>'%(target_name))
     return HttpResponse('hhhhhhhhhhhhhhhhhhhhhhhhhh')
 
+
+#def future_pred(past_t,past_y,future_t):
+#    past_t=np.array(past_t).reshape(-1,1)
+#    past_y=np.array(past_y).reshape(-1,1)
+#    past_ln=np.log(past_t)
+#    reg = linear_model.LinearRegression()
+#    reg.fit(past_t,past_ln)
+#    k=reg.coef_[0]
+#    b=reg.intercept_
+#    A=np.exp(b)
+#    print (A,k)
+#    def fit(t):
+#        return int(A*np.exp(k*t))
+#    ret=[fit(x) for x in future_t]
+#    return ret
+
+
 def getData(request):
     max_points=1000
     beginDate = request.GET.get("beginDate", "2018-01-22")
@@ -119,10 +137,15 @@ def getData(request):
 
     print(endDate,color,uid,interval)
     
-    
+#    today=t[-1]
+#    end=int(1000*time.mktime(endDate_.timetuple()))
+#    future_time=range(today,end,24*3600*1000)
+#    ret=future_pred(t,y,future_time)
+#    tz=[[future_time[i],ret[i]] for i in range(len(future_time))]
     
     ty=[[t[i],y[i]] for i in indexs]
-    tz=[[t[i],y[i]] for i in indexs[200:]]
+    
+
     tt=[[1370131200000, 0.7695],
         [1370217600000, 0.7648],
         [1370304000000, 0.7645],
