@@ -124,6 +124,21 @@ def getData(request):
     t=map(lambda x:int(1000*x.Timestamp),select)
     y=select.values(color)
     y=map(lambda x : x[color],y)
+
+    y_r=select.values('R1')
+    y_r=map(lambda x : x['R1'],y_r)
+    
+    y_g=select.values('G1')
+    y_g=map(lambda x : x['G1'],y_g)
+    
+    y_b=select.values('B1')
+    y_b=map(lambda x : x['B1'],y_b)
+    
+    
+
+    y_total=[y_r[i]+y_g[i]+y_b[i] for i in range(len(y))]
+    y_ratio=[y[i]/float(y_total[i]) for i in range(len(y))]
+    y=y_ratio
     
     color_cali=color+'C'
     z=select.values(color_cali)
@@ -174,18 +189,22 @@ def getData(request):
 
 
 def getBigData(request):
-    max_points=1000
+    max_points=1000000
     beginDate = request.GET.get("beginDate", "2018-01-22")
     endDate = request.GET.get("endDate")
     
+    endDate_=datetime.datetime.strptime(endDate, "%Y-%m-%d")
+    endDate_=endDate_+timedelta(days=1)
+    endDate=endDate_
+    
     color=request.GET.get("color")
     uid=request.GET.get("uid")
-    print(endDate,color,uid)
 
     select=AlgorithmRgb.objects.filter(Uid=uid)
     select=select.filter(Datetime__range=[beginDate, endDate])
     select.all().order_by("Datetime")
-    t=map(lambda x:x.Datetime,select)
+#    t=map(lambda x:x.Datetime,select)
+    t=map(lambda x:int(1000*x.Timestamp),select)
     y=select.values(color)
     y=map(lambda x : x[color],y)
     
@@ -197,14 +216,19 @@ def getBigData(request):
     if n==0:
         return []
     interval=int(np.ceil(n/float(max_points)))
-#    indexs=range(0,n,interval)
-    indexs=range(n)
-    print(interval)
+    indexs=range(0,n,interval)
+
+    print(endDate,color,uid,interval)
     
-    
+#    today=t[-1]
+#    end=int(1000*time.mktime(endDate_.timetuple()))
+#    future_time=range(today,end,24*3600*1000)
+#    ret=future_pred(t,y,future_time)
+#    tz=[[future_time[i],ret[i]] for i in range(len(future_time))]
     
     ty=[[t[i],y[i]] for i in indexs]
-    tz=[[t[i],z[i]] for i in indexs]
+    
+
 #    appRank = {'value':ty,'calibration':tz}
     appRank = {'value':ty}
     return JsonResponse(appRank)
