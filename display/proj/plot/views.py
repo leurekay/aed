@@ -64,6 +64,9 @@ def index2(request):
 
 def index3(request):
     return render(request, 'index3.html')
+
+def index4(request):
+    return render(request, 'index4.html')
      
 def add(request):
 
@@ -105,8 +108,10 @@ def add(request):
 #    return ret
 
 
+
+
 def getData(request):
-    max_points=1000
+    max_points=500000
     beginDate = request.GET.get("beginDate", "2018-01-22")
     endDate = request.GET.get("endDate")
     
@@ -124,21 +129,6 @@ def getData(request):
     t=map(lambda x:int(1000*x.Timestamp),select)
     y=select.values(color)
     y=map(lambda x : x[color],y)
-
-    y_r=select.values('R1')
-    y_r=map(lambda x : x['R1'],y_r)
-    
-    y_g=select.values('G1')
-    y_g=map(lambda x : x['G1'],y_g)
-    
-    y_b=select.values('B1')
-    y_b=map(lambda x : x['B1'],y_b)
-    
-    
-
-    y_total=[y_r[i]+y_g[i]+y_b[i] for i in range(len(y))]
-    y_ratio=[y[i]/float(y_total[i]) for i in range(len(y))]
-    y=y_ratio
     
     color_cali=color+'C'
     z=select.values(color_cali)
@@ -187,9 +177,90 @@ def getData(request):
 
 
 
+def getRatioData(request):
+    max_points=500000
+    beginDate = request.GET.get("beginDate", "2018-01-22")
+    endDate = request.GET.get("endDate")
+    
+    endDate_=datetime.datetime.strptime(endDate, "%Y-%m-%d")
+    endDate_=endDate_+timedelta(days=1)
+    endDate=endDate_
+    
+    color=request.GET.get("color")
+    uid=request.GET.get("uid")
+
+    select=AlgorithmRgb.objects.filter(Uid=uid)
+    select=select.filter(Datetime__range=[beginDate, endDate])
+    select.all().order_by("Datetime")
+#    t=map(lambda x:x.Datetime,select)
+    t=map(lambda x:int(1000*x.Timestamp),select)
+    y=select.values(color)
+    y=map(lambda x : x[color],y)
+    if color in ['R1','G1','B1']:
+        RR='R1'
+        GG='G1'
+        BB='B1'
+        
+    if color in ['R2','G2','B2']:
+        RR='R2'
+        GG='G2'
+        BB='B2'
+    
+    y_r=select.values(RR)
+    y_r=map(lambda x : x[RR],y_r)
+    
+    y_g=select.values(GG)
+    y_g=map(lambda x : x[GG],y_g)
+    
+    y_b=select.values(BB)
+    y_b=map(lambda x : x[BB],y_b)
+    
+    
+
+    y_total=[y_r[i]+y_g[i]+y_b[i] for i in range(len(y))]
+    y_ratio=[y[i]/float(y_total[i]) for i in range(len(y))]
+    y=y_ratio
+    
+    color_cali=color+'C'
+    z=select.values(color_cali)
+    z=map(lambda x : x[color_cali],z)
+    
+    n=len(y)
+    if n==0:
+        return []
+    interval=int(np.ceil(n/float(max_points)))
+    indexs=range(0,n,interval)
+
+    print(endDate,color,uid,interval)
+    
+#    today=t[-1]
+#    end=int(1000*time.mktime(endDate_.timetuple()))
+#    future_time=range(today,end,24*3600*1000)
+#    ret=future_pred(t,y,future_time)
+#    tz=[[future_time[i],ret[i]] for i in range(len(future_time))]
+    
+    ty=[[t[i],y[i]] for i in indexs]
+    
+
+#    appRank = {'value':ty,'calibration':tz}
+    appRank = {'value':ty}
+    return JsonResponse(appRank)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def getBigData(request):
-    max_points=1000000
+    max_points=500000
     beginDate = request.GET.get("beginDate", "2018-01-22")
     endDate = request.GET.get("endDate")
     
