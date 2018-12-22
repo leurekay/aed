@@ -238,11 +238,11 @@ class SVM(Classifier):
 
 def ration_one_over_total(df,select_feature,cali_feature):
     select=df[select_feature]
+    ln_select=np.log(select)
     cali=df[cali_feature]
-    delta=select-cali
-    delta=delta.astype('float')
-    ratio=delta/cali
-    return ratio
+    ln_cali=np.log(cali)
+    delta=ln_select-ln_cali
+    return delta
 
 if __name__=='__main__':
     split=0.99
@@ -273,9 +273,9 @@ if __name__=='__main__':
     
     battery=Classifier(df_train,features=['R1_ratio','G1_ratio','B1_ratio'],
                        which='Battery')
-    battery.svm(save_path=model_battery_path,C=1,class_weight={0:1,1:2})
+    battery.svm(save_path=model_battery_path,C=1,class_weight={0:4,1:1})
     battery.plot()
-    recall_b,precision_b,recall_b_ser,precision_b_ser=battery.validation(df_val)
+    recall_b,precision_b,recall_b_ser,precision_b_ser=battery.validation(df_train)
     
     
     #df_train['B_dist']=0
@@ -285,9 +285,9 @@ if __name__=='__main__':
     
     meachine=Classifier(df_train,features=['R2_ratio','G2_ratio','B2_ratio'],
                        which='Meachine')
-    meachine.svm(save_path=model_meachine_path,C=1,class_weight={0:1,1:4})
+    meachine.svm(save_path=model_meachine_path,C=1,class_weight={0:1,1:10})
     meachine.plot()
-    recall_m,precision_m,recall_m_ser,precision_m_ser=meachine.validation(df_val)
+    recall_m,precision_m,recall_m_ser,precision_m_ser=meachine.validation(df_train)
     
     print ('============battery===========')
     print ('new recall:%.4f , new precision:%.4f'%(recall_b,precision_b))

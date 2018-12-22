@@ -11,6 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 import time
 import os
+import math
 
 import lr_pred
 import svm_pred
@@ -23,6 +24,7 @@ def predict(request,param):
     uids=zipdata[12:]
     zipdata=zipdata[:12]
     zipdata=map(lambda x:int(x),zipdata)
+    zipdata=map(lambda x:math.log(x),zipdata)
     statue1,statue_battery1,statue_meachine1,confidence_battery1,confidence_meachine1=lr_pred.statue_judge(zipdata)
     statue2,statue_battery2,statue_meachine2,confidence_battery2,confidence_meachine2=svm_pred.statue_judge(zipdata)
     statue3,confidence3=neural_pred.statue_judge(zipdata)

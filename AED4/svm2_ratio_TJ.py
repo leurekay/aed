@@ -83,9 +83,9 @@ class Classifier(object):
         
         
         xy=np.array([[-0.1,-0.1],
-               [-0.1,2],
-               [2,2],
-               [2,-0.1],
+               [-0.1,3],
+               [3,3],
+               [3,-1],
                ])
         w,b=self.model.coef_[0],self.model.intercept_
         
@@ -198,10 +198,10 @@ class SVM(Classifier):
     
         
         
-        xy=np.array([[-0.1,-0.1],
-               [-0.1,2],
-               [2,2],
-               [2,-0.1],
+        xy=np.array([[-100,-100],
+               [-100,3000],
+               [3000,3000],
+               [3000,-100],
                ])
         w,b=self.model.coef_[0],self.model.intercept_
         
@@ -236,12 +236,14 @@ class SVM(Classifier):
         plt.show()        
 
 
-def ration_one_over_total(df,select_feature,cali_feature):
+def ration_one_over_total(df,select_feature,total_feature):
     select=df[select_feature]
-    cali=df[cali_feature]
-    delta=select-cali
-    delta=delta.astype('float')
-    ratio=delta/cali
+    
+    dff=df[total_feature]
+    total=dff.sum(axis=1)
+    total=total.astype('float')
+    
+    ratio=select/total
     return ratio
 
 if __name__=='__main__':
@@ -254,13 +256,13 @@ if __name__=='__main__':
     df_test=pd.read_excel('excels/data4-5.xlsx')
     
     df=pd.concat([df,df_test])
-    df['R1_ratio']=ration_one_over_total(df,'R1','R1_')
-    df['G1_ratio']=ration_one_over_total(df,'G1','G1_')
-    df['B1_ratio']=ration_one_over_total(df,'B1','B1_')
+    df['R1_ratio']=ration_one_over_total(df,'R1',['R1','G1','B1'])
+    df['G1_ratio']=ration_one_over_total(df,'G1',['R1','G1','B1'])
+    df['B1_ratio']=ration_one_over_total(df,'B1',['R1','G1','B1'])
     
-    df['R2_ratio']=ration_one_over_total(df,'R2','R2_')
-    df['G2_ratio']=ration_one_over_total(df,'G2','G2_')
-    df['B2_ratio']=ration_one_over_total(df,'B2','B2_')
+    df['R2_ratio']=ration_one_over_total(df,'R2',['R2','G2','B2'])
+    df['G2_ratio']=ration_one_over_total(df,'G2',['R2','G2','B2'])
+    df['B2_ratio']=ration_one_over_total(df,'B2',['R2','G2','B2'])
     
     
     

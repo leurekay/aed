@@ -47,7 +47,7 @@ class Classifier():
         
             
     def lr(self,save_path=None):
-        self.model=model =LogisticRegression(penalty='l2',C=2,random_state=0, solver='lbfgs',
+        self.model=model =LogisticRegression(penalty='l2',C=1500,random_state=0, solver='lbfgs',
                         multi_class='multinomial')
         
         model.fit(self.data,self.label)
@@ -81,9 +81,17 @@ class Classifier():
 
         return recall,precision,recall_serial,precision_serial,fpr, tpr, thresholds
 #        return recall,precision,1,1
-        
+   
+def delta_ln(df,select_feature,cali_feature):
+    select=df[select_feature]
+    ln_select=np.log(select)
+    cali=df[cali_feature]
+    ln_cali=np.log(cali)
+    delta=ln_select-ln_cali
+    return delta
+     
 if __name__=='__main__':
-    split=0.99
+    split=0.999
     model_battery_path='model/lr_battery.pkl'
     model_meachine_path='model/lr_meachine.pkl'
     excel_path='excels/data_all.xlsx'
@@ -92,6 +100,14 @@ if __name__=='__main__':
     df_test=pd.read_excel('excels/data4-5.xlsx')
     
     df=pd.concat([df,df_test])
+
+    df['R1_delta_ln']=delta_ln(df,'R1','R1_')
+    df['G1_delta_ln']=delta_ln(df,'G1','G1_')
+    df['B1_delta_ln']=delta_ln(df,'B1','B1_')
+    
+    df['R2_delta_ln']=delta_ln(df,'R2','R2_')
+    df['G2_delta_ln']=delta_ln(df,'G2','G2_')
+    df['B2_delta_ln']=delta_ln(df,'B2','B2_')
     
     
     shuffle=np.array(range(df.shape[0]))
@@ -103,7 +119,7 @@ if __name__=='__main__':
     
     
 
-    battery=Classifier(df_train,features=['R1_delta','G1_delta','B1_delta'],
+    battery=Classifier(df_train,features=['R1_delta_ln','G1_delta_ln','B1_delta_ln'],
                        which='Battery')
     battery.lr(save_path=model_battery_path)
     recall_b,precision_b,recall_b_ser,precision_b_ser,fpr_b,tpr_b,thred_b=battery.validation(df_train)
@@ -111,7 +127,7 @@ if __name__=='__main__':
     
     
     
-    meachine=Classifier(df_train,features=['R2_delta','G2_delta','B2_delta'],
+    meachine=Classifier(df_train,features=['R2_delta_ln','G2_delta_ln','B2_delta_ln'],
                        which='Meachine')
     meachine.lr(save_path=model_meachine_path)
     recall_m,precision_m,recall_m_ser,precision_m_ser,fpr_m,tpr_m,thred_m=meachine.validation(df_train)
