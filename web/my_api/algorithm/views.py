@@ -14,6 +14,7 @@ from datetime import datetime
 
 import django.utils.timezone as timezone
 import os
+import math
 
 import lr_pred
 import svm_pred
@@ -26,13 +27,27 @@ def timestamp2beijing(t):
     time2 = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(t))
     return time2
 
+
+def operate_db(uid):
+    select=RGB.objects.filter(Uid=uid)
+    select.all().order_by("Datetime")
+    select=select.values('R1','R1C','R2','R2C','Statue2')
+    select=list(select)
+#    s=map(lambda x : x['R1'],select)
+    return select
+
 @csrf_exempt
 def predict(request,param):
     zipdata=param.split('-')
     uids=zipdata[12:]
     zipdata=zipdata[:12]
     zipdata=map(lambda x:int(x),zipdata)
-    statue1,statue_battery1,statue_meachine1,confidence_battery1,confidence_meachine1=lr_pred.statue_judge(zipdata)
+    zipdata_ln=map(lambda x:math.log(x),zipdata)
+    
+    sel=operate_db(uids[0])
+    print (sel)
+    
+    statue1,statue_battery1,statue_meachine1,confidence_battery1,confidence_meachine1=lr_pred.statue_judge(zipdata_ln)
     statue2,statue_battery2,statue_meachine2,confidence_battery2,confidence_meachine2=svm_pred.statue_judge(zipdata)
     statue3,confidence3=neural_pred.statue_judge(zipdata)
     
