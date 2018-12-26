@@ -29,7 +29,7 @@ def timestamp2beijing(t):
     return time2
 
 
-def operate_db(kwargs):
+def operate_db(kwargs,statue_field_keyword):
     select=RGB.objects.filter(Uid=kwargs['Uid'],R1C=kwargs['R1C'],R2C=kwargs['R2C'],G1C=kwargs['G1C'],G2C=kwargs['G2C'])
     if len(select)==0:
         b_good=[[kwargs['R1C'],kwargs['G1C'],kwargs['B1C']]]
@@ -40,7 +40,7 @@ def operate_db(kwargs):
         
         
     select.all().order_by("Datetime")
-    select=select.values('R1','R1C','R2','R2C','G1','G1C','G2','G2C','B1','B1C','B2','B2C','Statue2')
+    select=select.values('R1','R1C','R2','R2C','G1','G1C','G2','G2C','B1','B1C','B2','B2C',statue_field_keyword)
     select=list(select)
     select=select[-100:]
 
@@ -50,13 +50,13 @@ def operate_db(kwargs):
     m_bad=[]
    
     for dic in select:
-        if dic['Statue2']==0 or dic['Statue2']==2:
+        if dic[statue_field_keyword]==0 or dic[statue_field_keyword]==2:
             b_good.append([dic['R1'],dic['G1'],dic['B1']])
-        if dic['Statue2']==1 or dic['Statue2']==3:
+        if dic[statue_field_keyword]==1 or dic[statue_field_keyword]==3:
             b_bad.append([dic['R1'],dic['G1'],dic['B1']])
-        if dic['Statue2']==0 or dic['Statue2']==1:
+        if dic[statue_field_keyword]==0 or dic[statue_field_keyword]==1:
             m_good.append([dic['R2'],dic['G2'],dic['B2']])
-        if dic['Statue2']==2 or dic['Statue2']==3:
+        if dic[statue_field_keyword]==2 or dic[statue_field_keyword]==3:
             m_bad.append([dic['R2'],dic['G2'],dic['B2']])
 #    s=map(lambda x : x['R1'],select)
     return {'b_good':b_good,'b_bad':b_bad,'m_good':m_good,'m_bad':m_bad}
@@ -75,14 +75,21 @@ def predict(request,param):
     
     
     
-    
-    past_data=operate_db(mapping)
+    #1st phase transition
+    past_data=operate_db(mapping,'Statue2')
     statue2,statue_battery2,statue_meachine2,confidence_battery2,confidence_meachine2=transition_pred.total_judge(zipdata,past_data)
-#    print ('=========',s)
+
     
+    #TJ formula  transition
+    past_data_TJ=operate_db(mapping,'Statue3')
+    statue3,statue_battery3,statue_meachine3,confidence_battery3,confidence_meachine3=transition_pred.total_judge_formularTJ(zipdata,past_data_TJ)
+    
+    
+    #take log ,then logistic-regresion
     statue1,statue_battery1,statue_meachine1,confidence_battery1,confidence_meachine1=lr_pred.statue_judge(zipdata_ln)
-#    statue2,statue_battery2,statue_meachine2,confidence_battery2,confidence_meachine2=svm_pred.statue_judge(zipdata)
-    statue3,confidence3=neural_pred.statue_judge(zipdata)
+    
+#    #neural network
+#    statue3,confidence3=neural_pred.statue_judge(zipdata)
     
     t=int(time.time())
     date1=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(t))
@@ -108,7 +115,8 @@ def predict(request,param):
                          #'confidence_battery':confidence_battery,
                          #'confidence_meachine':confidence_meachine,
                          'statue3':statue3,
-                         'confidence3':float(confidence3),
+                         'statue4':2,
+#                         'confidence3':float(confidence3),
                          })
 
 

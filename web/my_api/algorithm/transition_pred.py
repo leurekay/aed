@@ -84,7 +84,53 @@ def total_judge(observe,dic):
     if battery==1 and meachine==1:
         total_statue=3
     return total_statue,battery,meachine,88,88
+
+
+def total_judge_formularTJ(observe,dic):
+    """
+    observe: npArray[5290-4869-6675-6447-4657-4259-5399-5276-6430-5885-7002-6974]
+    dic:   {'b_good':b_good,
+            'b_bad':b_bad,
+            'm_good':m_good,
+            'm_bad':m_bad}
+    """
+    coef_r=-0.68202
+    coef_g=0.77073
+    coef_b=0.56332
+    coef=np.array([[coef_r]*3,[coef_g]*3,[coef_b]*3])
     
+    
+    R1,_,R2,_,G1,_,G2,_,B1,_,B2,_=observe
+#    z_b=coef_r*R1+coef_g*G1+coef_b*B1
+#    z_m=coef_r*R2+coef_g*G2+coef_b*B2
+    
+    
+    cur_b=np.array([R1,G1,B1]).reshape((-1,3))
+    cur_m=np.array([R2,G2,B2]).reshape((-1,3))
+    b_good=np.array(dic['b_good']).reshape((-1,3))
+    b_bad=np.array(dic['b_bad']).reshape((-1,3))
+    m_good=np.array(dic['m_good']).reshape((-1,3))
+    m_bad=np.array(dic['m_bad']).reshape((-1,3))
+    
+    cur_b=np.dot(cur_b,coef).squeeze()
+    cur_m=np.dot(cur_m,coef).squeeze()
+    b_good=np.dot(b_good,coef)
+    b_bad=np.dot(b_bad,coef)
+    m_good=np.dot(m_good,coef)
+    m_bad=np.dot(m_bad,coef)
+    
+    battery=transition(cur_b,b_good,b_bad,Thred_b)
+    meachine=transition(cur_m,m_good,m_bad,Thred_m)
+    if battery==0 and meachine==0:
+        total_statue=0
+    if battery==1 and meachine==0:
+        total_statue=1
+    if battery==0 and meachine==1:
+        total_statue=2
+    if battery==1 and meachine==1:
+        total_statue=3
+    return total_statue,battery,meachine,88,88
+  
 
 if __name__=='__main__':
     cur=np.array([1003,3423,5435])
