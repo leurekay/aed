@@ -67,6 +67,9 @@ def index3(request):
 
 def index4(request):
     return render(request, 'index4.html')
+
+def index5(request):
+    return render(request, 'index5.html')
      
 def add(request):
 
@@ -121,48 +124,47 @@ def getData(request):
     
     color=request.GET.get("color")
     uid=request.GET.get("uid")
+    if uid=='':
+        uid='fsld4fijo89f45trjesouijwire984309cddsifdscsfsf'
+    cali=request.GET.get("cali")
+    
+    print(endDate,color,uid,cali)
 
     select=AlgorithmRgb.objects.filter(Uid=uid)
     select=select.filter(Datetime__range=[beginDate, endDate])
     select.all().order_by("Datetime")
 #    t=map(lambda x:x.Datetime,select)
     t=map(lambda x:int(1000*x.Timestamp),select)
-    y=select.values(color)
-    y=map(lambda x : x[color],y)
     
-    color_cali=color+'C'
-    z=select.values(color_cali)
-    z=map(lambda x : x[color_cali],z)
+    if color != '====':
+        y=select.values(color)
+        y=map(lambda x : x[color],y)
     
-    n=len(y)
+    if cali != '====':
+        color_cali=cali+'C'
+        z=select.values(color_cali)
+        z=map(lambda x : x[color_cali],z)
+    
+    n=len(t)
     if n==0:
         return []
     interval=int(np.ceil(n/float(max_points)))
     indexs=range(0,n,interval)
 
-    print(endDate,color,uid,interval)
-    
-#    today=t[-1]
-#    end=int(1000*time.mktime(endDate_.timetuple()))
-#    future_time=range(today,end,24*3600*1000)
-#    ret=future_pred(t,y,future_time)
-#    tz=[[future_time[i],ret[i]] for i in range(len(future_time))]
-    
-    ty=[[t[i],y[i]] for i in indexs]
     
 
     tt=[[1370131200000, 0.7695],
-        [1370217600000, 0.7648],
-        [1370304000000, 0.7645],
-        [1370390400000, 0.7638],
-        [1370476800000, 0.7549],
-        [1370563200000, 0.7562],
-        [1370736000000, 0.7574],
-        [1370822400000, 0.7543],
         [1370908800000, 0.751],
         [1370995200000, 0.7498]]
+    appRank={}
+    if color != '====':
+        ty=[[t[i],y[i]] for i in indexs]
+        appRank['value']=ty
+    if cali != '====':
+        tz=[[t[i],z[i]] for i in indexs]
+        appRank['calibration']=tz
 #    appRank = {'value':ty,'calibration':tz}
-    appRank = {'value':ty}
+#    appRank = {'value':ty}
     return JsonResponse(appRank)
 
 
@@ -304,6 +306,49 @@ def getBigData(request):
     appRank = {'value':ty}
     return JsonResponse(appRank)
 
+
+
+def formulaTJ(request):
+    max_points=500000
+    beginDate = request.GET.get("beginDate", "2018-01-22")
+    endDate = request.GET.get("endDate")
+    
+    endDate_=datetime.datetime.strptime(endDate, "%Y-%m-%d")
+    endDate_=endDate_+timedelta(days=1)
+    endDate=endDate_
+    
+    color=request.GET.get("color")
+    uid=request.GET.get("uid")
+
+    select=AlgorithmRgb.objects.filter(Uid=uid)
+    select=select.filter(Datetime__range=[beginDate, endDate])
+    select.all().order_by("Datetime")
+#    t=map(lambda x:x.Datetime,select)
+    t=map(lambda x:int(1000*x.Timestamp),select)
+    if color=='Z1':
+        yy=select.values('R1','G1','B1')
+        y=map(lambda x:-0.68202*x['R1']+0.77073*x['G1']+0.56332*x['B1'],yy)
+        y_raw=map(lambda x:x['R1'],yy)
+    n=len(y)
+    if n==0:
+        return []
+    interval=int(np.ceil(n/float(max_points)))
+    indexs=range(0,n,interval)
+
+    print(endDate,color,uid,interval)
+    
+#    today=t[-1]
+#    end=int(1000*time.mktime(endDate_.timetuple()))
+#    future_time=range(today,end,24*3600*1000)
+#    ret=future_pred(t,y,future_time)
+#    tz=[[future_time[i],ret[i]] for i in range(len(future_time))]
+    
+    ty=[[t[i],y[i]] for i in indexs]
+    ty_raw=[[t[i],y_raw[i]] for i in indexs]
+
+    appRank = {'transform':ty,'origin':ty_raw}
+#    appRank = {'value':ty}
+    return JsonResponse(appRank)
 
 if __name__=='__main__':
     pass

@@ -42,18 +42,17 @@
                 var beginDate = $("#beginDate").val();
                 var endDate = $("#endDate").val();
                 var color = $("#color").val()
-                var cali = $("#cali").val()
                 var uid = $("#uid").val()
 
                 // 将appNames连接成字符串
-                queryReport(beginDate, endDate,color,cali,uid);
+                queryReport(beginDate, endDate,color,uid);
             });
         })
 
         var lineChart;
 
         // 获取绘图数据
-        function queryReport(beginDate, endDate,color,cali,uid) {
+        function queryReport(beginDate, endDate,color,uid) {
         
 
         
@@ -146,12 +145,11 @@
             parameters = {'beginDate': beginDate,
                         'endDate': endDate,
                         'color':color,
-                        'cali':cali,
                         'uid':uid
                         };
 
             // 请求绘图数据
-            $.get("/getData",
+            $.get("/diagram/formulaTJ",
                     parameters,
                     function(rankDict) {
                         var ranksOfApp = new Array();
@@ -174,47 +172,28 @@
     <div id="set-content">
         <ul>
             <li>
-                <label for="beginDate">通讯模组编号: </label>
+                <label for="beginDate">Uid: </label>
                 <input type="text" placeholder="请输入控制盒序列号" id="uid" name="uid">
             </li>
             
             <li>
-                <label for="">颜色通道: </label>
+                <label for="color">Color: </label>
                 <select id="color" name="color">
-                  <option>    R1    </option> 
-                  <option>    R2    </option> 
-                  <option>    G1    </option> 
-                  <option>    G2    </option>
-                  <option>    B1    </option>
-                  <option>    B2    </option>
-                  <option>    ====    </option>
+                  <option>    Z1    </option> 
+                  <option>    Z2    </option> 
                 </select>
             </li>
-
             <li>
-                <label for="cali">校准值: </label>
-                <select id="cali" name="cali">
-                  <option>    ====    </option>
-                  <option>    R1    </option> 
-                  <option>    R2    </option> 
-                  <option>    G1    </option> 
-                  <option>    G2    </option>
-                  <option>    B1    </option>
-                  <option>    B2    </option>
-                </select>
-            </li>            
-
-            <li>
-                <label for="beginDate">开始时间: </label>
+                <label for="beginDate">Begin Date: </label>
                 <input type="text" id="beginDate">
             </li>
             <li>
-                <label for="endDate">结束时间: </label>
+                <label for="endDate">End Date: </label>
                 <input type="text" id="endDate">
             </li>
      
             <li>
-                <button id='query'>查询</button>
+                <button id='query'>Query</button>
             </li>
         </ul>
     </div>
