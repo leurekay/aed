@@ -18,7 +18,7 @@ import math
 
 import lr_pred
 import svm_pred
-import neural_pred
+#import neural_pred
 import transition_pred
 
 from models import RGB
@@ -30,7 +30,21 @@ def timestamp2beijing(t):
 
 
 def operate_db(kwargs,statue_field_keyword):
-    select=RGB.objects.filter(Uid=kwargs['Uid'],R1C=kwargs['R1C'],R2C=kwargs['R2C'],G1C=kwargs['G1C'],G2C=kwargs['G2C'])
+    n=RGB.objects.count()
+    select0=RGB.objects.all()[max(0,n-2000):n-1]
+    select0=select0.values()
+#    print (select0)
+
+#    select=RGB.objects.filter(Uid=kwargs['Uid'],R1C=kwargs['R1C'],R2C=kwargs['R2C'],G1C=kwargs['G1C'],G2C=kwargs['G2C'])
+#    print (select)
+#    select=select0.filter(Uid=kwargs['Uid'])
+
+    select=[]
+    for dic in select0:
+        if dic['Uid']==kwargs['Uid'] and dic['R1C']==kwargs['R1C']and dic['G2C']==kwargs['G2C']:
+            select.append(dic)
+
+        
     if len(select)==0:
         b_good=[[kwargs['R1C'],kwargs['G1C'],kwargs['B1C']]]
         b_bad=[] 
@@ -39,16 +53,17 @@ def operate_db(kwargs,statue_field_keyword):
         return {'b_good':b_good,'b_bad':b_bad,'m_good':m_good,'m_bad':m_bad}
         
         
-    select.all().order_by("Datetime")
-    select=select.values('R1','R1C','R2','R2C','G1','G1C','G2','G2C','B1','B1C','B2','B2C',statue_field_keyword)
-    select=list(select)
-    select=select[-100:]
+#    select.all().order_by("Datetime")
+#    select=select.values('R1','R1C','R2','R2C','G1','G1C','G2','G2C','B1','B1C','B2','B2C',statue_field_keyword)
+#    select=list(select)
+#    select=select[-100:]
 
     b_good=[]
     b_bad=[] 
     m_good=[]
     m_bad=[]
-   
+    
+    select=select[-50:]
     for dic in select:
         if dic[statue_field_keyword]==0 or dic[statue_field_keyword]==2:
             b_good.append([dic['R1'],dic['G1'],dic['B1']])
@@ -63,6 +78,7 @@ def operate_db(kwargs,statue_field_keyword):
 
 @csrf_exempt
 def predict(request,param):
+    start_time=time.time()
     zipdata=param.split('-')
     uid=zipdata[12]
     zipdata=zipdata[:12]
@@ -72,7 +88,10 @@ def predict(request,param):
 
     keys=['R1','R1C','R2','R2C','G1','G1C','G2','G2C','B1','B1C','B2','B2C','Uid']
     mapping=dict(zip(keys,zipdata+[uid]))
-    
+
+
+    #take log ,then logistic-regresion
+    statue1,statue_battery1,statue_meachine1,confidence_battery1,confidence_meachine1=lr_pred.statue_judge(zipdata_ln)    
     
     
     #1st phase transition
@@ -80,13 +99,13 @@ def predict(request,param):
     statue2,statue_battery2,statue_meachine2,confidence_battery2,confidence_meachine2=transition_pred.total_judge(zipdata,past_data)
 
     
-    #TJ formula  transition
+#    #TJ formula  transition
     past_data_TJ=operate_db(mapping,'Statue3')
     statue3,statue_battery3,statue_meachine3,confidence_battery3,confidence_meachine3=transition_pred.total_judge_formularTJ(zipdata,past_data_TJ)
+#    past_data_TJ=1
+#    statue3,statue_battery3,statue_meachine3,confidence_battery3,confidence_meachine3=0,0,0,0,0
     
-    
-    #take log ,then logistic-regresion
-    statue1,statue_battery1,statue_meachine1,confidence_battery1,confidence_meachine1=lr_pred.statue_judge(zipdata_ln)
+
     
 #    #neural network
 #    statue3,confidence3=neural_pred.statue_judge(zipdata)
@@ -101,6 +120,8 @@ def predict(request,param):
             Statue1=statue1,Statue2=statue2,Statue3=statue3)
     rgb.save()
     
+    delta_time=1000*(time.time()-start_time)
+#    print ('comsume time %.2fms'%delta_time*1000)
     return JsonResponse({'input': param, 
                          'statue1':statue1,
                          'confidence1':float(confidence_battery1*confidence_meachine1),
@@ -115,8 +136,9 @@ def predict(request,param):
                          #'confidence_battery':confidence_battery,
                          #'confidence_meachine':confidence_meachine,
                          'statue3':statue3,
-                         'statue4':2,
+                         'statue4':0,
 #                         'confidence3':float(confidence3),
+                         'time':delta_time
                          })
 
 

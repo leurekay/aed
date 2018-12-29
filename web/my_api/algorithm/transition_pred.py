@@ -47,14 +47,15 @@ def transition(cur,pre_good,pre_bad,threds):
         concat=np.concatenate((cur.reshape((1,-1)),mean_bad.reshape((1,-1)))).astype('float')
         ratio=concat.max(axis=0)/concat.min(axis=0)
         ratio_great_thred=np.greater(ratio,threds)
-        great=np.greater(cur,mean_bad)
+        great=np.greater(mean_bad,cur)
         cc=np.array([great,ratio_great_thred])
         boolean=cc.all(axis=0)
         sum_bool=boolean.sum()
         if sum_bool>1.5:
-            return 1
-        else:
             return 0
+        else:
+            return 1
+
 
 def total_judge(observe,dic):
     """
