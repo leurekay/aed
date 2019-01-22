@@ -34,10 +34,17 @@ web和display共用一个数据库，其他相互独立。
 通过控制盒上传的数据，可以得到16个数字。取前12个数字来判断AED电池及设备的状态。由于电池的状态和机器的状态是近似相互独立的，所以可以把电池的状态和设备的状态分开判断，一个状态之和6个数字相关(R值，R校准，G值，G校准，B值，B校准)。
 
 
-## 最直观的做法
-早期对十多台AED(3种型号)，少量监控装置，两两组合，得到了一些数据。下图只是对单独的R通道的可视化，发现不同状态有明显的分隔线
+## 直观
+早期对十多台AED(3种型号)，少量监控装置，两两组合，得到了一些数据，发现实际值减去校准值的分布有规律可循。下图只是对单独的R通道的可视化，发现不同状态有明显的分隔线
 ![Instance Segmentation Sample](AED/scatter1.jpg)
 
+
+## 进阶
+
+随着监控批次的增多，不同状态间的数据分布很难找到明显的分隔线。
+![](AED4/scatter.jpg)
+以上的分布我们仅仅是从单个R,单个G,单个B去看的，如果同时考虑RGB三通道，可以得到三维的数据分布，在三维空间很容易用一个平面去划分。
+![](AED4/3d.png)
 
 ## 1. Anchor sorting and filtering
 Visualizes every step of the first stage Region Proposal Network and displays positive and negative anchors along with anchor box refinement.
