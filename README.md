@@ -17,8 +17,8 @@ web和display共用一个数据库(服务器上位于/data/)，其他相互独�
 
 * 相关的库
     * django 提供web框架  	
-	numpy  
-	sklearn 如果只使用数值突变的算法，不需要安装。  
+    * numpy  
+    * sklearn 如果只使用数值突变的算法，不需要安装。  
 
 
 
@@ -29,7 +29,7 @@ web和display共用一个数据库(服务器上位于/data/)，其他相互独�
 
 ## 直观
 早期对十多台AED(3种型号)，少量监控装置，两两组合，得到了一些数据，发现实际值减去校准值的分布有规律可循。下图只是对单独的R通道的可视化，发现不同状态有明显的分隔线
-![Instance Segmentation Sample](AED/scatter1.jpg)
+![Instance Segmentation Sample](AED/scatter1.jpg =100*100)
 
 
 ## 进阶
