@@ -16,7 +16,7 @@ web和display共用一个数据库(服务器上位于/data/)，其他相互独�
 * Python2.7 
 
 * 相关的库
-	django 提供web框架  	
+    * django 提供web框架  	
 	numpy  
 	sklearn 如果只使用数值突变的算法，不需要安装。  
 
