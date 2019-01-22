@@ -5,31 +5,26 @@ This is an implementation of [Mask R-CNN](https://arxiv.org/abs/1703.06870) on P
 ![Instance Segmentation Sample](AED4/scatter.jpg)
 
 本仓库仅以下3个子目录有用:
-* [AED4](AED4) 早期数据采集，及先关统计算法的实现，目前用不到。
-* web  提供API借口
-* display  监控数据可视化访问页面
+* [AED4](AED4) 早期数据采集，及相关统计算法的实现，目前用不到。
+* [web](web)  提供API接口
+* [display](display)  监控数据可视化访问页面
+
+web和display共用一个数据库，其他相互独立。
 
 
 
-The code is documented and designed to be easy to extend. If you use it in your research, please consider citing this repository (bibtex below). If you work on 3D vision, you might find our recently released [Matterport3D](https://matterport.com/blog/2017/09/20/announcing-matterport3d-research-dataset/) dataset useful as well.
-This dataset was created from 3D-reconstructed spaces captured by our customers who agreed to make them publicly available for academic use. You can see more examples [here](https://matterport.com/gallery/).
 
-# Getting Started
-* [demo.ipynb](samples/demo.ipynb) Is the easiest way to start. It shows an example of using a model pre-trained on MS COCO to segment objects in your own images.
-It includes code to run object detection and instance segmentation on arbitrary images.
+# 环境配置
+## ubuntu 16.04   其他linux操作系统应该也可以，windows也可以(但api接口需要在后台运行，windows下我不会操作)
 
-* [train_shapes.ipynb](samples/shapes/train_shapes.ipynb) shows how to train Mask R-CNN on your own dataset. This notebook introduces a toy dataset (Shapes) to demonstrate training on a new dataset.
+## Python2.7 
+
+### dsfd
+
 
 * ([model.py](mrcnn/model.py), [utils.py](mrcnn/utils.py), [config.py](mrcnn/config.py)): These files contain the main Mask RCNN implementation. 
 
 
-* [inspect_data.ipynb](samples/coco/inspect_data.ipynb). This notebook visualizes the different pre-processing steps
-to prepare the training data.
-
-* [inspect_model.ipynb](samples/coco/inspect_model.ipynb) This notebook goes in depth into the steps performed to detect and segment objects. It provides visualizations of every step of the pipeline.
-
-* [inspect_weights.ipynb](samples/coco/inspect_weights.ipynb)
-This notebooks inspects the weights of a trained model and looks for anomalies and odd patterns.
 
 
 # Step by Step Detection
