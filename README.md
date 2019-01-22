@@ -50,22 +50,18 @@ web和display共用一个数据库，其他相互独立。
 # 程序运行
 
 ```
-# 运行api，切换至web/my_api/ 路径下 
+# 运行api接口，切换至web/my_api/ 路径下 
 python manage.py runserver 0.0.0.0:80
 #如需后台运行
 nohup python manage.py runserver 0.0.0.0:80 &
 
 
 
-# Train a new model starting from ImageNet weights
-python3 samples/coco/coco.py train --dataset=/path/to/coco/ --model=imagenet
+# 运行数据可视化，切换至display/proj/ 路径下 
+python manage.py runserver 0.0.0.0:5000
+#如需后台运行
+nohup python manage.py runserver 0.0.0.0:5000 &
 
-# Continue training a model that you had trained earlier
-python3 samples/coco/coco.py train --dataset=/path/to/coco/ --model=/path/to/weights.h5
-
-# Continue training the last model you trained. This will find
-# the last trained weights in the model directory.
-python3 samples/coco/coco.py train --dataset=/path/to/coco/ --model=last
 ```
 
 
