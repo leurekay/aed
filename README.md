@@ -5,7 +5,7 @@ This is an implementation of [Mask R-CNN](https://arxiv.org/abs/1703.06870) on P
 ![Instance Segmentation Sample](AED4/scatter.jpg)
 
 本仓库仅以下3个子目录有用:
-* AED4 早期数据采集，及先关统计算法的实现，目前用不到。
+* [AED4](AED4) 早期数据采集，及先关统计算法的实现，目前用不到。
 * web  提供API借口
 * display  监控数据可视化访问页面
 
