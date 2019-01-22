@@ -1,9 +1,5 @@
 # AED监控
 
-This is an implementation of [Mask R-CNN](https://arxiv.org/abs/1703.06870) on Python 3, Keras, and TensorFlow. The model generates bounding boxes and segmentation masks for each instance of an object in the image. It's based on Feature Pyramid Network (FPN) and a ResNet101 backbone.
-
-![Instance Segmentation Sample](AED4/scatter.jpg)
-
 本仓库仅以下3个子目录有用:
 * [AED4](AED4) 早期数据采集，及相关统计算法的实现，目前用不到。
 * [web](web)  提供API接口
@@ -25,9 +21,6 @@ web和display共用一个数据库，其他相互独立。
 	sklearn 如果只使用数值突变的算法，不需要安装。
 
 
-* ([model.py](mrcnn/model.py), [utils.py](mrcnn/utils.py), [config.py](mrcnn/config.py)): These files contain the main Mask RCNN implementation. 
-
-
 
 
 # 解决方案
@@ -43,8 +36,15 @@ web和display共用一个数据库，其他相互独立。
 
 随着监控批次的增多，不同状态间的数据分布很难找到明显的分隔线。
 ![](AED4/scatter.jpg)
-以上的分布我们仅仅是从单个R,单个G,单个B去看的，如果同时考虑RGB三通道，可以得到三维的数据分布，在三维空间很容易用一个平面去划分。
+以上的分布我们仅仅是从单个R,单个G,单个B去看的，如果同时考虑RGB三通道，可以得到三维的数据分布，在三维空间很容易用一个平面去划分。平面的选择用到了支持向量机的算法。
 ![](AED4/3d.png)
+
+
+## 突变
+随着时间的推移，发现监控数值会随着时间衰减(大概需要连续3天以上的持续观察才可以发现)。由于监控的数值正比于LED的反射强度，所以推断是由于LED灯光强的衰减造成的，并且根据相关资料显示LED的衰减呈现指数下降趋势，所以监控数值的衰减曲线极有可能是指数曲线。很不幸，之前设计的算法就不能用了。
+![](image/curve.png)
+
+
 
 ## 1. Anchor sorting and filtering
 Visualizes every step of the first stage Region Proposal Network and displays positive and negative anchors along with anchor box refinement.
