@@ -29,7 +29,7 @@ web和display共用一个数据库(服务器上位于/data/)，其他相互独�
 
 ## 直观
 早期对十多台AED(3种型号)，少量监控装置，两两组合，得到了一些数据，发现实际值减去校准值的分布有规律可循。下图只是对单独的R通道的可视化，发现不同状态有明显的分隔线
-![Instance Segmentation Sample](AED/scatter1.jpg =100*100)
+![Instance Segmentation Sample](AED/scatter1.jpg =100x100)
 
 
 ## 进阶
