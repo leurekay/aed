@@ -1,6 +1,6 @@
 # AED监控
 
-本仓库仅以下3个子目录有用:
+以下3个子目录有用:
 * [AED4](AED4) 早期数据采集，及相关统计算法的实现，目前用不到。
 * [web](web)  提供API接口
 * [display](display)  监控数据可视化访问页面
@@ -47,38 +47,28 @@ web和display共用一个数据库，其他相互独立。
 根据几台观测设备采集到的数据发现，故障值/正常值≈1.4，这启发我们可以这么做，计算当前值与前一时刻的比值，如果大于设定的阈值，则可认为状态发生了改变。之所以用比值而不用差值，是因为随着数值的下降，差值也会同比例的下降，不易设定一个统一的阈值。
 
 
+# 程序运行
 
-## 1. Anchor sorting and filtering
-Visualizes every step of the first stage Region Proposal Network and displays positive and negative anchors along with anchor box refinement.
-![](assets/detection_anchors.png)
+```
+# 运行api，切换至web/my_api/ 路径下 
+python manage.py runserver 0.0.0.0:80
+#如需后台运行
+nohup python manage.py runserver 0.0.0.0:80 &
 
-## 2. Bounding Box Refinement
-This is an example of final detection boxes (dotted lines) and the refinement applied to them (solid lines) in the second stage.
-![](assets/detection_refinement.png)
 
-## 3. Mask Generation
-Examples of generated masks. These then get scaled and placed on the image in the right location.
 
-![](assets/detection_masks.png)
+# Train a new model starting from ImageNet weights
+python3 samples/coco/coco.py train --dataset=/path/to/coco/ --model=imagenet
 
-## 4.Layer activations
-Often it's useful to inspect the activations at different layers to look for signs of trouble (all zeros or random noise).
+# Continue training a model that you had trained earlier
+python3 samples/coco/coco.py train --dataset=/path/to/coco/ --model=/path/to/weights.h5
 
-![](assets/detection_activations.png)
+# Continue training the last model you trained. This will find
+# the last trained weights in the model directory.
+python3 samples/coco/coco.py train --dataset=/path/to/coco/ --model=last
+```
 
-## 5. Weight Histograms
-Another useful debugging tool is to inspect the weight histograms. These are included in the inspect_weights.ipynb notebook.
 
-![](assets/detection_histograms.png)
-
-## 6. Logging to TensorBoard
-TensorBoard is another great debugging and visualization tool. The model is configured to log losses and save weights at the end of every epoch.
-
-![](assets/detection_tensorboard.png)
-
-## 6. Composing the different pieces into a final result
-
-![](assets/detection_final.png)
 
 
 # Training on MS COCO
