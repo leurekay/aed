@@ -15,11 +15,14 @@ web和display共用一个数据库，其他相互独立。
 
 
 # 环境配置
-## ubuntu 16.04   其他linux操作系统应该也可以，windows也可以(但api接口需要在后台运行，windows下我不会操作)
+* ubuntu 16.04   其他linux操作系统应该也可以，windows也可以(但api接口需要在后台运行，windows下我不会操作)
 
-## Python2.7 
+* Python2.7 
 
-### dsfd
+* 相关的库
+	django 提供web框架	
+	numpy  
+	sklearn 如果只使用数值突变的算法，不需要安装。
 
 
 * ([model.py](mrcnn/model.py), [utils.py](mrcnn/utils.py), [config.py](mrcnn/config.py)): These files contain the main Mask RCNN implementation. 
@@ -27,11 +30,13 @@ web和display共用一个数据库，其他相互独立。
 
 
 
-# Step by Step Detection
-To help with debugging and understanding the model, there are 3 notebooks 
-([inspect_data.ipynb](samples/coco/inspect_data.ipynb), [inspect_model.ipynb](samples/coco/inspect_model.ipynb),
-[inspect_weights.ipynb](samples/coco/inspect_weights.ipynb)) that provide a lot of visualizations and allow running the model step by step to inspect the output at each point. Here are a few examples:
+# 解决方案
+通过控制盒上传的数据，可以得到16个数字。取前12个数字来判断AED电池及设备的状态。由于电池的状态和机器的状态是近似相互独立的，所以可以把电池的状态和设备的状态分开判断，一个状态之和6个数字相关(R值，R校准，G值，G校准，B值，B校准)。
 
+
+## 最直观的做法
+早期对十多台AED(3种型号)，少量监控装置，两两组合，得到了一些数据。下图只是对单独的R通道的可视化，发现不同状态有明显的分隔线
+![Instance Segmentation Sample](AED/scatter1.jpg)
 
 
 ## 1. Anchor sorting and filtering
