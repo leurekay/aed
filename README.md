@@ -1,123 +1,224 @@
-# Faster-RCNN_TF
+# Mask R-CNN for Object Detection and Segmentation
 
-This is an experimental Tensorflow implementation of Faster RCNN - a convnet for object detection with a region proposal network.
-For details about R-CNN please refer to the paper [Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks](http://arxiv.org/pdf/1506.01497v3.pdf) by Shaoqing Ren, Kaiming He, Ross Girshick, Jian Sun.
+This is an implementation of [Mask R-CNN](https://arxiv.org/abs/1703.06870) on Python 3, Keras, and TensorFlow. The model generates bounding boxes and segmentation masks for each instance of an object in the image. It's based on Feature Pyramid Network (FPN) and a ResNet101 backbone.
+
+![Instance Segmentation Sample](assets/street.png)
+
+The repository includes:
+* Source code of Mask R-CNN built on FPN and ResNet101.
+* Training code for MS COCO
+* Pre-trained weights for MS COCO
+* Jupyter notebooks to visualize the detection pipeline at every step
+* ParallelModel class for multi-GPU training
+* Evaluation on MS COCO metrics (AP)
+* Example of training on your own dataset
 
 
-### Requirements: software
+The code is documented and designed to be easy to extend. If you use it in your research, please consider citing this repository (bibtex below). If you work on 3D vision, you might find our recently released [Matterport3D](https://matterport.com/blog/2017/09/20/announcing-matterport3d-research-dataset/) dataset useful as well.
+This dataset was created from 3D-reconstructed spaces captured by our customers who agreed to make them publicly available for academic use. You can see more examples [here](https://matterport.com/gallery/).
 
-1. Requirements for Tensorflow (see: [Tensorflow](https://www.tensorflow.org/))
+# Getting Started
+* [demo.ipynb](samples/demo.ipynb) Is the easiest way to start. It shows an example of using a model pre-trained on MS COCO to segment objects in your own images.
+It includes code to run object detection and instance segmentation on arbitrary images.
 
-2. Python packages you might not have: `cython`, `python-opencv`, `easydict`
+* [train_shapes.ipynb](samples/shapes/train_shapes.ipynb) shows how to train Mask R-CNN on your own dataset. This notebook introduces a toy dataset (Shapes) to demonstrate training on a new dataset.
 
-### Requirements: hardware
+* ([model.py](mrcnn/model.py), [utils.py](mrcnn/utils.py), [config.py](mrcnn/config.py)): These files contain the main Mask RCNN implementation. 
 
-1. For training the end-to-end version of Faster R-CNN with VGG16, 3G of GPU memory is sufficient (using CUDNN)
 
-### Installation (sufficient for the demo)
+* [inspect_data.ipynb](samples/coco/inspect_data.ipynb). This notebook visualizes the different pre-processing steps
+to prepare the training data.
 
-1. Clone the Faster R-CNN repository
-  ```Shell
-  # Make sure to clone with --recursive
-  git clone --recursive https://github.com/smallcorgi/Faster-RCNN_TF.git
-  ```
+* [inspect_model.ipynb](samples/coco/inspect_model.ipynb) This notebook goes in depth into the steps performed to detect and segment objects. It provides visualizations of every step of the pipeline.
 
-2. Build the Cython modules
-    ```Shell
-    cd $FRCN_ROOT/lib
-    make
-    ```
+* [inspect_weights.ipynb](samples/coco/inspect_weights.ipynb)
+This notebooks inspects the weights of a trained model and looks for anomalies and odd patterns.
 
-### Demo
 
-*After successfully completing [basic installation](#installation-sufficient-for-the-demo)*, you'll be ready to run the demo.
+# Step by Step Detection
+To help with debugging and understanding the model, there are 3 notebooks 
+([inspect_data.ipynb](samples/coco/inspect_data.ipynb), [inspect_model.ipynb](samples/coco/inspect_model.ipynb),
+[inspect_weights.ipynb](samples/coco/inspect_weights.ipynb)) that provide a lot of visualizations and allow running the model step by step to inspect the output at each point. Here are a few examples:
 
-Download model training on PASCAL VOC 2007  [[Google Drive]](https://drive.google.com/open?id=0ByuDEGFYmWsbZ0EzeUlHcGFIVWM) [[Dropbox]](https://www.dropbox.com/s/cfz3blmtmwj6bdh/VGGnet_fast_rcnn_iter_70000.ckpt?dl=0)
 
-To run the demo
-```Shell
-cd $FRCN_ROOT
-python ./tools/demo.py --model model_path
+
+## 1. Anchor sorting and filtering
+Visualizes every step of the first stage Region Proposal Network and displays positive and negative anchors along with anchor box refinement.
+![](assets/detection_anchors.png)
+
+## 2. Bounding Box Refinement
+This is an example of final detection boxes (dotted lines) and the refinement applied to them (solid lines) in the second stage.
+![](assets/detection_refinement.png)
+
+## 3. Mask Generation
+Examples of generated masks. These then get scaled and placed on the image in the right location.
+
+![](assets/detection_masks.png)
+
+## 4.Layer activations
+Often it's useful to inspect the activations at different layers to look for signs of trouble (all zeros or random noise).
+
+![](assets/detection_activations.png)
+
+## 5. Weight Histograms
+Another useful debugging tool is to inspect the weight histograms. These are included in the inspect_weights.ipynb notebook.
+
+![](assets/detection_histograms.png)
+
+## 6. Logging to TensorBoard
+TensorBoard is another great debugging and visualization tool. The model is configured to log losses and save weights at the end of every epoch.
+
+![](assets/detection_tensorboard.png)
+
+## 6. Composing the different pieces into a final result
+
+![](assets/detection_final.png)
+
+
+# Training on MS COCO
+We're providing pre-trained weights for MS COCO to make it easier to start. You can
+use those weights as a starting point to train your own variation on the network.
+Training and evaluation code is in `samples/coco/coco.py`. You can import this
+module in Jupyter notebook (see the provided notebooks for examples) or you
+can run it directly from the command line as such:
+
 ```
-The demo performs detection using a VGG16 network trained for detection on PASCAL VOC 2007.
+# Train a new model starting from pre-trained COCO weights
+python3 samples/coco/coco.py train --dataset=/path/to/coco/ --model=coco
 
-### Training Model
-1. Download the training, validation, test data and VOCdevkit
+# Train a new model starting from ImageNet weights
+python3 samples/coco/coco.py train --dataset=/path/to/coco/ --model=imagenet
 
-	```Shell
-	wget http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtrainval_06-Nov-2007.tar
-	wget http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtest_06-Nov-2007.tar
-	wget http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCdevkit_08-Jun-2007.tar
-	```
+# Continue training a model that you had trained earlier
+python3 samples/coco/coco.py train --dataset=/path/to/coco/ --model=/path/to/weights.h5
 
-2. Extract all of these tars into one directory named `VOCdevkit`
+# Continue training the last model you trained. This will find
+# the last trained weights in the model directory.
+python3 samples/coco/coco.py train --dataset=/path/to/coco/ --model=last
+```
 
-	```Shell
-	tar xvf VOCtrainval_06-Nov-2007.tar
-	tar xvf VOCtest_06-Nov-2007.tar
-	tar xvf VOCdevkit_08-Jun-2007.tar
-	```
+You can also run the COCO evaluation code with:
+```
+# Run COCO evaluation on the last trained model
+python3 samples/coco/coco.py evaluate --dataset=/path/to/coco/ --model=last
+```
 
-3. It should have this basic structure
-
-	```Shell
-  	$VOCdevkit/                           # development kit
-  	$VOCdevkit/VOCcode/                   # VOC utility code
-  	$VOCdevkit/VOC2007                    # image sets, annotations, etc.
-  	# ... and several other directories ...
-  	```
-
-4. Create symlinks for the PASCAL VOC dataset
-
-	```Shell
-    cd $FRCN_ROOT/data
-    ln -s $VOCdevkit VOCdevkit2007
-    ```
-    
-5. Download pre-trained ImageNet models
-
-   Download the pre-trained ImageNet models [[Google Drive]](https://drive.google.com/open?id=0ByuDEGFYmWsbNVF5eExySUtMZmM) [[Dropbox]](https://www.dropbox.com/s/po2kzdhdgl4ix55/VGG_imagenet.npy?dl=0)
-   
-   	```Shell
-    mv VGG_imagenet.npy $FRCN_ROOT/data/pretrain_model/VGG_imagenet.npy
-    ```
-
-6. Run script to train and test model
-	```Shell
-	cd $FRCN_ROOT
-	./experiments/scripts/faster_rcnn_end2end.sh $DEVICE $DEVICE_ID VGG16 pascal_voc
-	```
-  DEVICE is either cpu/gpu
-
-### The result of testing on PASCAL VOC 2007 
-
-| Classes       | AP     |
-|-------------|--------|
-| aeroplane   | 0.698 |
-| bicycle     | 0.788 |
-| bird        | 0.657 |
-| boat        | 0.565 |
-| bottle      | 0.478 |
-| bus         | 0.762 |
-| car         | 0.797 |
-| cat         | 0.793 |
-| chair       | 0.479 |
-| cow         | 0.724 |
-| diningtable | 0.648 |
-| dog         | 0.803 |
-| horse       | 0.797 |
-| motorbike   | 0.732 |
-| person      | 0.770 |
-| pottedplant | 0.384 |
-| sheep       | 0.664 |
-| sofa        | 0.650 |
-| train       | 0.766 |
-| tvmonitor   | 0.666 |
-| mAP        | 0.681 |
+The training schedule, learning rate, and other parameters should be set in `samples/coco/coco.py`.
 
 
-###References
-[Faster R-CNN caffe version](https://github.com/rbgirshick/py-faster-rcnn)
+# Training on Your Own Dataset
 
-[A tensorflow implementation of SubCNN (working progress)](https://github.com/yuxng/SubCNN_TF)
+Start by reading this [blog post about the balloon color splash sample](https://engineering.matterport.com/splash-of-color-instance-segmentation-with-mask-r-cnn-and-tensorflow-7c761e238b46). It covers the process starting from annotating images to training to using the results in a sample application.
 
+In summary, to train the model on your own dataset you'll need to extend two classes:
+
+```Config```
+This class contains the default configuration. Subclass it and modify the attributes you need to change.
+
+```Dataset```
+This class provides a consistent way to work with any dataset. 
+It allows you to use new datasets for training without having to change 
+the code of the model. It also supports loading multiple datasets at the
+same time, which is useful if the objects you want to detect are not 
+all available in one dataset. 
+
+See examples in `samples/shapes/train_shapes.ipynb`, `samples/coco/coco.py`, `samples/balloon/balloon.py`, and `samples/nucleus/nucleus.py`.
+
+## Differences from the Official Paper
+This implementation follows the Mask RCNN paper for the most part, but there are a few cases where we deviated in favor of code simplicity and generalization. These are some of the differences we're aware of. If you encounter other differences, please do let us know.
+
+* **Image Resizing:** To support training multiple images per batch we resize all images to the same size. For example, 1024x1024px on MS COCO. We preserve the aspect ratio, so if an image is not square we pad it with zeros. In the paper the resizing is done such that the smallest side is 800px and the largest is trimmed at 1000px.
+* **Bounding Boxes**: Some datasets provide bounding boxes and some provide masks only. To support training on multiple datasets we opted to ignore the bounding boxes that come with the dataset and generate them on the fly instead. We pick the smallest box that encapsulates all the pixels of the mask as the bounding box. This simplifies the implementation and also makes it easy to apply image augmentations that would otherwise be harder to apply to bounding boxes, such as image rotation.
+
+    To validate this approach, we compared our computed bounding boxes to those provided by the COCO dataset.
+We found that ~2% of bounding boxes differed by 1px or more, ~0.05% differed by 5px or more, 
+and only 0.01% differed by 10px or more.
+
+* **Learning Rate:** The paper uses a learning rate of 0.02, but we found that to be
+too high, and often causes the weights to explode, especially when using a small batch
+size. It might be related to differences between how Caffe and TensorFlow compute 
+gradients (sum vs mean across batches and GPUs). Or, maybe the official model uses gradient
+clipping to avoid this issue. We do use gradient clipping, but don't set it too aggressively.
+We found that smaller learning rates converge faster anyway so we go with that.
+
+## Citation
+Use this bibtex to cite this repository:
+```
+@misc{matterport_maskrcnn_2017,
+  title={Mask R-CNN for object detection and instance segmentation on Keras and TensorFlow},
+  author={Abdulla, Waleed},
+  year={2017},
+  publisher={Github},
+  journal={GitHub repository},
+  howpublished={\url{https://github.com/matterport/Mask_RCNN}},
+}
+```
+
+## Contributing
+Contributions to this repository are welcome. Examples of things you can contribute:
+* Speed Improvements. Like re-writing some Python code in TensorFlow or Cython.
+* Training on other datasets.
+* Accuracy Improvements.
+* Visualizations and examples.
+
+You can also [join our team](https://matterport.com/careers/) and help us build even more projects like this one.
+
+## Requirements
+Python 3.4, TensorFlow 1.3, Keras 2.0.8 and other common packages listed in `requirements.txt`.
+
+### MS COCO Requirements:
+To train or test on MS COCO, you'll also need:
+* pycocotools (installation instructions below)
+* [MS COCO Dataset](http://cocodataset.org/#home)
+* Download the 5K [minival](https://dl.dropboxusercontent.com/s/o43o90bna78omob/instances_minival2014.json.zip?dl=0)
+  and the 35K [validation-minus-minival](https://dl.dropboxusercontent.com/s/s3tw5zcg7395368/instances_valminusminival2014.json.zip?dl=0)
+  subsets. More details in the original [Faster R-CNN implementation](https://github.com/rbgirshick/py-faster-rcnn/blob/master/data/README.md).
+
+If you use Docker, the code has been verified to work on
+[this Docker container](https://hub.docker.com/r/waleedka/modern-deep-learning/).
+
+
+## Installation
+1. Install dependencies
+   ```bash
+   pip3 install -r requirements.txt
+   ```
+2. Clone this repository
+3. Run setup from the repository root directory
+    ```bash
+    python3 setup.py install
+    ``` 
+3. Download pre-trained COCO weights (mask_rcnn_coco.h5) from the [releases page](https://github.com/matterport/Mask_RCNN/releases).
+4. (Optional) To train or test on MS COCO install `pycocotools` from one of these repos. They are forks of the original pycocotools with fixes for Python3 and Windows (the official repo doesn't seem to be active anymore).
+
+    * Linux: https://github.com/waleedka/coco
+    * Windows: https://github.com/philferriere/cocoapi.
+    You must have the Visual C++ 2015 build tools on your path (see the repo for additional details)
+
+# Projects Using this Model
+If you extend this model to other datasets or build projects that use it, we'd love to hear from you.
+
+### [4K Video Demo](https://www.youtube.com/watch?v=OOT3UIXZztE) by Karol Majek.
+[![Mask RCNN on 4K Video](assets/4k_video.gif)](https://www.youtube.com/watch?v=OOT3UIXZztE)
+
+### [Images to OSM](https://github.com/jremillard/images-to-osm): Improve OpenStreetMap by adding baseball, soccer, tennis, football, and basketball fields.
+
+![Identify sport fields in satellite images](assets/images_to_osm.png)
+
+### [Splash of Color](https://engineering.matterport.com/splash-of-color-instance-segmentation-with-mask-r-cnn-and-tensorflow-7c761e238b46). A blog post explaining how to train this model from scratch and use it to implement a color splash effect.
+![Balloon Color Splash](assets/balloon_color_splash.gif)
+
+
+### [Segmenting Nuclei in Microscopy Images](samples/nucleus). Built for the [2018 Data Science Bowl](https://www.kaggle.com/c/data-science-bowl-2018)
+Code is in the `samples/nucleus` directory.
+
+![Nucleus Segmentation](assets/nucleus_segmentation.png)
+
+### [Detection and Segmentation for Surgery Robots](https://github.com/SUYEgit/Surgery-Robot-Detection-Segmentation) by the NUS Control & Mechatronics Lab.
+![Surgery Robot Detection and Segmentation](https://github.com/SUYEgit/Surgery-Robot-Detection-Segmentation/raw/master/assets/video.gif)
+
+### [Mapping Challenge](https://github.com/crowdAI/crowdai-mapping-challenge-mask-rcnn): Convert satellite imagery to maps for use by humanitarian organisations.
+![Mapping Challenge](assets/mapping_challenge.png)
+
+### [GRASS GIS Addon](https://github.com/ctu-geoforall-lab/i.ann.maskrcnn) to generate vector masks from geospatial imagery. Based on a [Master's thesis](https://github.com/ctu-geoforall-lab-projects/dp-pesek-2018) by Ondřej Pešek.
+![GRASS GIS Image](https://github.com/ctu-geoforall-lab/i.ann.maskrcnn/raw/master/samples/out3.png)
